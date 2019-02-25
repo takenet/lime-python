@@ -1,9 +1,6 @@
 # Envelope Class
 # Gabriel R Santos (@chr0m1ng)
 ''' Base class to all communication documents'''
-from Interfaces.IIdentity import IIdentity
-from Utils.ClassUtils import ClassUtils
-from Utils.StringUtils import StringUtils
 from copy import copy
 
 

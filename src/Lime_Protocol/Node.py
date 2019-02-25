@@ -10,15 +10,18 @@ from Identity import Identity
 class Node(Identity):
 
     ''' Initializes a new instance of the Node class.'''
+
     def __init__(self, name, domain, instance=None):
         super().__init__(name, domain)
         self.Instance = instance
 
     ''' Returns a string that represents this instance.'''
+
     def __str__(self):
         return ('%s/%s' % (super().__str__(), self.Instance)).rstrip('/')
 
     ''' Determines whether the specified object is equal to this instance.'''
+
     def __eq__(self, obj):
         node = ClassUtils.SafeCast(obj, Node)
 
@@ -26,15 +29,16 @@ class Node(Identity):
             return False
         return ((self.Name is None and node.Name is None) or
                 (self.Name is not None and
-                self.Name.lower() == node.Name.lower()) and
+                 self.Name.lower() == node.Name.lower()) and
                 (self.Domain is None and node.Domain is None) or
                 (self.Domain is not None and
-                self.Domain.lower() == node.Domain.lower()) and
+                 self.Domain.lower() == node.Domain.lower()) and
                 (self.Instance is None and node.Instance is None) or
                 (self.Instance is not None and
-                self.Instance.lower() == node.Instance.lower()))
+                 self.Instance.lower() == node.Instance.lower()))
 
     ''' Returns a hash code for this instance.'''
+
     def __hash__(self):
         return super().__hash__()
 
@@ -64,16 +68,19 @@ class Node(Identity):
             return False, None
 
     ''' Creates an Identity instance based on the Node identity.'''
+
     def ToIdentity(self):
         return Identity(self.Name, self.Domain)
 
     ''' Indicates if the node is a complete representation,
         with name, domain and instance.'''
+
     def IsComplete(self):
         return not StringUtils.IsNoneOrEmpty(self.Name) and \
             not StringUtils.IsNoneOrEmpty(self.Domain) and \
             not StringUtils.IsNoneOrEmpty(self.Instance)
 
     ''' Creates a new object that is a copy of the current instance.'''
+
     def Copy(self):
         return Node(self.Name, self.Domain, self.Instance)

@@ -22,6 +22,7 @@ class Identity(IIdentity):
     ''' Returns a hash code for this instance
         A hash code for this instance, suitable for use in hashing algorithms
         and data structures like a hash table.'''
+
     def __hash__(self):
         return hash(str(self).lower()) % ((sys.maxsize + 1) * 2)
 
@@ -33,13 +34,14 @@ class Identity(IIdentity):
             return False
         return ((self.Name is None and identity.Name is None) or
                 (self.Name is not None and
-                self.Name.lower() == identity.Name.lower())) and \
+                 self.Name.lower() == identity.Name.lower())) and \
                ((self.Domain is None and identity.Domain is None) or
                 (self.Domain is not None and
-                self.Domain.lower() == identity.Domain.lower()))
+                 self.Domain.lower() == identity.Domain.lower()))
 
     ''' Creates a Node instance based on the identity,
         with a null value for the instance property.'''
+
     def ToNode(self):
         from Node import Node
         return Node(self.Name, self.Domain)

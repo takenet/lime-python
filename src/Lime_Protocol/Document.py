@@ -2,16 +2,19 @@
 # Gabriel R Santos (@chr0m1ng)
 
 from Utils.StringUtils import StringUtils
+from MediaType import MediaType
 
 
-class Document():
+class Document:
 
-    def __init__(self, mediaType):
+    _mediaType = None
+
+    def __init__(MediaType mediaType):
+
         if mediaType is None:
             raise TypeError
-        self._mediaType = mediaType
+
+        _mediaType = mediaType
 
     def GetMediaType(self):
-        return self._mediaType
-
-    # TODO: Document func returns a new PlainDocument
+        return _mediaType

@@ -61,7 +61,8 @@ class _MediaType:
             return self.Type.lower() == mediaType.Type.lower() and \
                 self.Subtype.lower() == mediaType.Subtype.lower() and \
                 (self.Suffix is None and mediaType.Suffix is None or
-                    (self.Suffix is not None and mediaType.Suffix is not None and
+                    (self.Suffix is not None and
+                        mediaType.Suffix is not None and
                         self.Suffix.lower() == mediaType.Suffix.lower()))
         except:
             return False

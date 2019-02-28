@@ -2,7 +2,6 @@
 # Gabriel R Santos (@chr0m1ng)
 
 ''' Represents an element of a network.'''
-from Utils.ClassUtils import ClassUtils
 from Utils.StringUtils import StringUtils
 from Identity import Identity
 
@@ -22,20 +21,21 @@ class Node(Identity):
 
     ''' Determines whether the specified object is equal to this instance.'''
 
-    def __eq__(self, obj):
-        node = ClassUtils.SafeCast(obj, Node)
-
+    def __eq__(self, node):
         if node is None:
             return False
-        return ((self.Name is None and node.Name is None) or
-                (self.Name is not None and
-                 self.Name.lower() == node.Name.lower()) and
-                (self.Domain is None and node.Domain is None) or
-                (self.Domain is not None and
-                 self.Domain.lower() == node.Domain.lower()) and
-                (self.Instance is None and node.Instance is None) or
-                (self.Instance is not None and
-                 self.Instance.lower() == node.Instance.lower()))
+        try:
+            return ((self.Name is None and node.Name is None) or
+                    (self.Name is not None and
+                    self.Name.lower() == node.Name.lower()) and
+                    (self.Domain is None and node.Domain is None) or
+                    (self.Domain is not None and
+                    self.Domain.lower() == node.Domain.lower()) and
+                    (self.Instance is None and node.Instance is None) or
+                    (self.Instance is not None and
+                    self.Instance.lower() == node.Instance.lower()))
+        except:
+            return False
 
     ''' Returns a hash code for this instance.'''
 

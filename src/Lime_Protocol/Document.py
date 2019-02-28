@@ -1,12 +1,10 @@
 # Document Class
 # Gabriel R Santos (@chr0m1ng)
 
-from Interfaces.IDocument import IDocument
-from Utils.ClassUtils import ClassUtils
 from Utils.StringUtils import StringUtils
 
 
-class Document(IDocument):
+class Document():
 
     def __init__(self, mediaType):
         if mediaType is None:

@@ -1,13 +1,11 @@
 # Identity Class
 # Gabriel R Santos (@chr0m1ng)
 ''' Represents an identity in a domain'''
-from Interfaces.IIdentity import IIdentity
-from Utils.ClassUtils import ClassUtils
 from Utils.StringUtils import StringUtils
 import sys
 
 
-class Identity(IIdentity):
+class Identity:
     # Initializes a new instance of the Identity class
     def __init__(self, name, domain):
         self.Name = name
@@ -27,17 +25,19 @@ class Identity(IIdentity):
         return hash(str(self).lower()) % ((sys.maxsize + 1) * 2)
 
     # Determines whether the specified object is equal to this instance
-    def __eq__(self, obj):
-        identity = ClassUtils.SafeCast(obj, Identity)
-
+    def __eq__(self, identity):
         if identity is None:
             return False
-        return ((self.Name is None and identity.Name is None) or
-                (self.Name is not None and
-                 self.Name.lower() == identity.Name.lower())) and \
-               ((self.Domain is None and identity.Domain is None) or
-                (self.Domain is not None and
-                 self.Domain.lower() == identity.Domain.lower()))
+        try:
+
+            return ((self.Name is None and identity.Name is None) or
+                    (self.Name is not None and
+                    self.Name.lower() == identity.Name.lower())) and \
+                ((self.Domain is None and identity.Domain is None) or
+                    (self.Domain is not None and
+                        self.Domain.lower() == identity.Domain.lower()))
+        except:
+            return False
 
     ''' Creates a Node instance based on the identity,
         with a null value for the instance property.'''

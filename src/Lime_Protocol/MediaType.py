@@ -81,7 +81,7 @@ class _MediaType:
         subtype = splittedSubtype[0]
         suffix = ''
 
-        if len(splittedSubtype > 1):
+        if len(splittedSubtype) > 1:
             suffix = splittedSubtype[1]
 
         return _MediaType(mtype, subtype, suffix)

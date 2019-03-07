@@ -39,3 +39,18 @@ class DictionaryDocument(Document):
 
     def Values(self):
         return self._json.values()
+
+    def __getitem__(self, key):
+        return self._json[key]
+
+    def __setitem__(self, key, value):
+        self._json[key] = value
+
+    def __delitem__(self, key):
+        del self._json[key]
+
+    def __len__(self):
+        return len(self._json)
+
+    def __iter__(self):
+        return iter(self._json)

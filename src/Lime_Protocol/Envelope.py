@@ -5,11 +5,6 @@ from copy import copy
 
 
 class Envelope:
-    ID_KEY = "id"
-    FROM_KEY = "from"
-    PP_KEY = "pp"
-    TO_KEY = "to"
-    METADATA_KEY = "metadata"
 
     def __init__(self, id=None):
         self.Id = id

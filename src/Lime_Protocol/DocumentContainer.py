@@ -5,8 +5,6 @@ from MediaType import MediaType as MediaTypeClass
 class DocumentContainer(Document):
 
     MIME_TYPE = "application/vnd.lime.container+json"
-    TYPE_KEY = "type"
-    VALUE_KEY = "value"
 
     MediaType = MediaTypeClass.Parse(MIME_TYPE)
 

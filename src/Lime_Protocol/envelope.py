@@ -7,11 +7,11 @@ from copy import copy
 class Envelope:
 
     def __init__(self, id=None):
-        self.Id = id
+        self.Id = id  # String
         self.From = None  # Node
         self.Pp = None  # Node
         self.To = None  # Node
-        self.Metadata = {}  # string : string
+        self.Metadata = {}  # String : String
 
     # Creates a shallow copy of the current Envelop
     def MemberwiseClone(self):

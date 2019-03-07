@@ -10,7 +10,7 @@ class IdentityDocument(Document):
     def __init__(self, value=None):
         if value is not None:
             super().__init__(IdentityDocument.MediaType)
-            self.Value = value
+        self.Value = value
 
     def __str__(self):
         return str(self.Value)

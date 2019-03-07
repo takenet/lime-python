@@ -9,7 +9,7 @@ class Document:
 
     _mediaType = None
 
-    def __init__(MediaType mediaType):
+    def __init__(self, mediaType):
 
         if mediaType is None:
             raise TypeError

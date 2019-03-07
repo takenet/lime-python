@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "576d8db77c1d62c6642590ff9cd7d16c4bd789a66a90170a723eccad3ae9c08e"
+            "sha256": "cb42b1ce9d1059d1bf8dcce0178ea6c8944f412a31e495bfe962c3b1f3ebd0aa"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -29,6 +29,14 @@
                 "sha256:cabb249f4710888a2fc0e13e9a16c343d932033718ff62e1e9bc93a9d3a9122b"
             ],
             "version": "==4.3.2"
+        },
+        "deprecated": {
+            "hashes": [
+                "sha256:2f293eb0eee34b1fcf3da530fe8fc4b0d71d43ddc2dc78e2ffb444b6c0868557",
+                "sha256:749f6cdcfbdc3f79258f8154bad43fced95adc632c337675d0385959895894bc"
+            ],
+            "index": "pypi",
+            "version": "==1.2.5"
         },
         "jsonpickle": {
             "hashes": [
@@ -66,6 +74,13 @@
             ],
             "index": "pypi",
             "version": "==0.12.4"
+        },
+        "wrapt": {
+            "hashes": [
+                "sha256:4aea003270831cceb8a90ff27c4031da6ead7ec1886023b80ce0dfe0adf61533",
+                "sha256:83d1cd9a4ba564c9156324cee97a9b343070b7f6a3f57440594e15252df16fed"
+            ],
+            "version": "==1.11.1"
         }
     },
     "develop": {}

@@ -40,6 +40,9 @@ class DictionaryDocument(Document):
     def Values(self):
         return self._json.values()
 
+    def GetJson(self):
+        return self._json
+
     def __getitem__(self, key):
         return self._json[key]
 

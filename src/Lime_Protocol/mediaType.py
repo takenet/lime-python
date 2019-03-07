@@ -1,32 +1,6 @@
 from utils.stringUtils import StringUtils
 
 
-class DiscreteTypes:
-
-    Application = 'application'
-    Text = 'text'
-    image = 'image'
-    Audio = 'audio'
-    Video = 'video'
-
-
-class CompositeTypes:
-
-    Message = 'message'
-    Multipart = 'multipart'
-
-
-class SubTypes:
-
-    Plain = 'plain'
-    JSON = 'json'
-    XML = 'xml'
-    HTML = 'html'
-    JPeg = 'jpeg'
-    Bitmap = 'bmp'
-    Javascript = 'javascript'
-
-
 class _MediaType:
 
     def __init__(self, inType, subtype, suffix=None):
@@ -41,9 +15,9 @@ class _MediaType:
 
     def IsJson(self):
         return (self.Suffix is not None and
-                self.Suffix.lower() == SubTypes.JSON) or \
+                self.Suffix.lower() == MediaType.SubTypes.JSON) or \
                 (self.Subtype is not None and
-                    self.Subtype.lower() == SubTypes.JSON)
+                    self.Subtype.lower() == MediaType.SubTypes.JSON)
 
     def __str__(self):
         if StringUtils.IsNoneOrEmpty(self.Suffix):
@@ -95,6 +69,29 @@ class _MediaType:
 
 
 class MediaType(_MediaType):
+
+    class DiscreteTypes:
+
+        Application = 'application'
+        Text = 'text'
+        image = 'image'
+        Audio = 'audio'
+        Video = 'video'
+
+    class CompositeTypes:
+
+        Message = 'message'
+        Multipart = 'multipart'
+
+    class SubTypes:
+
+        Plain = 'plain'
+        JSON = 'json'
+        XML = 'xml'
+        HTML = 'html'
+        JPeg = 'jpeg'
+        Bitmap = 'bmp'
+        Javascript = 'javascript'
 
     TextPlain = _MediaType(DiscreteTypes.Text, SubTypes.Plain)
     ApplicationJson = _MediaType(DiscreteTypes.Application, SubTypes.JSON)

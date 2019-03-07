@@ -9,6 +9,7 @@ verify_ssl = true
 autopep8 = "*"
 pep8 = "*"
 validators = "*"
+jsonpickle = "*"
 
 [requires]
 python_version = "3.7"

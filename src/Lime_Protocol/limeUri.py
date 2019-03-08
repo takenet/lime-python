@@ -1,6 +1,5 @@
 from utils.stringUtils import StringUtils
 from urllib.parse import urlparse
-import validators
 
 
 class LimeUri:
@@ -12,11 +11,12 @@ class LimeUri:
         self.Path = None
         if StringUtils.IsNoneOrEmpty(uriPath):
             raise TypeError
-        if validators.url(uriPath):
-            self._absoluteUri = urlparse(uriPath)
-            if self._absoluteUri.scheme != LIME_URI_SCHEME:
-                raise ValueError('Invalid URI scheme. \
-                    Expected is "%s"' % LIME_URI_SCHEME)
+        parsedUri = urlparse(uriPath)
+        if parsedUri.scheme != '':
+            self._absoluteUri = parsedUri
+            if self._absoluteUri.scheme != LimeUri.LIME_URI_SCHEME:
+                raise ValueError('Invalid URI scheme.\
+                    Expected is "%s"' % LimeUri.LIME_URI_SCHEME)
         else:
             raise ValueError('Invalid URI format')
 

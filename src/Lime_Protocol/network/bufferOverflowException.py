@@ -1,2 +1,0 @@
-class BufferOverflowException(Exception):
-    pass

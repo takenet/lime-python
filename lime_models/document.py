@@ -3,6 +3,7 @@
 
 from utils.stringUtils import StringUtils
 from mediaType import MediaType
+from jsonpickle import encode
 
 
 class Document:
@@ -16,3 +17,6 @@ class Document:
 
     def GetMediaType(self):
         return self._mediaType
+
+    def ToJson(self):
+        return encode(self)

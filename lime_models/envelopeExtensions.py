@@ -27,11 +27,11 @@ class EnvelopeExtensions:
 
     @staticmethod
     def ToEnvelope(jsonDocument, mediaType):
-        if mediaType == CommandMediaType:
+        if mediaType == EnvelopeExtensions.CommandMediaType:
             envelopeType = type(Command())
-        elif mediaType == MessageMediaType:
+        elif mediaType == EnvelopeExtensions.MessageMediaType:
             envelopeType = type(Message())
-        elif mediaType == NotificationMediaType:
+        elif mediaType == EnvelopeExtensions.NotificationMediaType:
             envelopeType = type(Notification())
         else:
             raise ValueError('Unknown envelope media type')

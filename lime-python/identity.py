@@ -11,6 +11,26 @@ class Identity:
         self.Name = name
         self.Domain = domain
 
+    @property
+    def Name(self):
+        return self.__Name
+
+    @Name.setter
+    def Name(self, name):
+        if not isinstance(name, str):
+            raise ValueError('"Name" must be a string')
+        self.__Name = name
+
+    @property
+    def Domain(self):
+        return self.__Domain
+
+    @Domain.setter
+    def Domain(self, domain):
+        if domain is not None and not isinstance(domain, str):
+            raise ValueError('"Domain" must be a string')
+        self.__Domain = domain
+
     # Returns a string that represents this instance
     def __str__(self):
         if StringUtils.IsNoneOrEmpty(self.Domain):
@@ -32,7 +52,7 @@ class Identity:
 
             return ((self.Name is None and identity.Name is None) or
                     (self.Name is not None and
-                    self.Name.lower() == identity.Name.lower())) and \
+                     self.Name.lower() == identity.Name.lower())) and \
                 ((self.Domain is None and identity.Domain is None) or
                     (self.Domain is not None and
                         self.Domain.lower() == identity.Domain.lower()))

@@ -1,13 +1,7 @@
 from mediaType import MediaType
 from document import Document
 from header import Header
-from enum import Enum
-
-
-class Scope(Enum):
-    Transient = 'transient'
-    Persistent = 'persistent'
-    Immediate = 'imemediate'
+from scope import Scope
 
 
 class _MenuDocument(Document):

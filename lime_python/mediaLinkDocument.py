@@ -1,5 +1,5 @@
-from mediaType import MediaType as MT
-from document import Document
+from lime_python.mediaType import MediaType as MT
+from lime_python.document import Document
 
 
 class _MediaLinkDocument(Document):

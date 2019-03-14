@@ -1,5 +1,5 @@
-from envelope import Envelope
-from reason import Reason
+from lime_python.envelope import Envelope
+from lime_python.reason import Reason
 from enum import Enum
 
 

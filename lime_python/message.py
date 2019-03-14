@@ -1,6 +1,6 @@
-from mediaType import MediaType
-from envelope import Envelope
-from document import Document
+from lime_python.mediaType import MediaType
+from lime_python.envelope import Envelope
+from lime_python.document import Document
 
 
 class Message(Envelope):

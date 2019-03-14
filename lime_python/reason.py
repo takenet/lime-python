@@ -1,4 +1,4 @@
-from reasonCode import ReasonCode
+from lime_python.reasonCode import ReasonCode
 
 
 class Reason:

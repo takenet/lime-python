@@ -1,6 +1,6 @@
-from plainTextDocument import PlainTextDocument
-from mediaType import MediaType as MT
-from document import Document
+from lime_python.plainTextDocument import PlainTextDocument
+from lime_python.mediaType import MediaType as MT
+from lime_python.document import Document
 from enum import Enum
 
 

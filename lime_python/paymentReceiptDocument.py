@@ -1,6 +1,6 @@
-from mediaType import MediaType
+from lime_python.mediaType import MediaType
+from lime_python.document import Document
 from datetime import datetime
-from document import Document
 from functools import reduce
 
 

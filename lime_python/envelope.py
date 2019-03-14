@@ -1,4 +1,4 @@
-from node import Node
+from lime_python.node import Node
 import uuid
 
 

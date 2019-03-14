@@ -1,6 +1,6 @@
-from mediaType import MediaType
-from document import Document
-from header import Header
+from lime_python.mediaType import MediaType
+from lime_python.document import Document
+from lime_python.header import Header
 
 
 class _ListDocument(Document):

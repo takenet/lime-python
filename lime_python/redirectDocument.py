@@ -1,7 +1,7 @@
-from plainTextDocument import PlainTextDocument
-from mediaType import MediaType
-from document import Document
-from node import Node
+from lime_python.plainTextDocument import PlainTextDocument
+from lime_python.mediaType import MediaType
+from lime_python.document import Document
+from lime_python.node import Node
 
 
 class _RedirectDocument(Document):

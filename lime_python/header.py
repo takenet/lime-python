@@ -1,4 +1,4 @@
-from document import Document
+from lime_python.document import Document
 
 
 class Header:

@@ -1,5 +1,5 @@
-from document import Document
-from mediaType import MediaType
+from lime_python.document import Document
+from lime_python.mediaType import MediaType
 from enum import Enum
 
 

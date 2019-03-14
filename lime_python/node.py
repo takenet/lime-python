@@ -1,5 +1,5 @@
 from utils.stringUtils import StringUtils
-from identity import Identity
+from lime_python.identity import Identity
 
 
 class Node(Identity):

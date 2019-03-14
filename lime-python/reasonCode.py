@@ -1,4 +1,7 @@
-class ReasonCodes:
+from enum import Enum
+
+
+class ReasonCode(Enum):
 
     # General error
 

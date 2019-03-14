@@ -1,7 +1,3 @@
-# Node Class
-# Gabriel R Santos (@chr0m1ng)
-
-''' Represents an element of a network.'''
 from utils.stringUtils import StringUtils
 from identity import Identity
 
@@ -10,14 +6,20 @@ class Node(Identity):
 
     ''' Initializes a new instance of the Node class.'''
 
-    def __init__(self, name, domain, instance=None):
+    def __init__(self, name, domain=None, instance=None):
         super().__init__(name, domain)
         self.Instance = instance
 
     ''' Returns a string that represents this instance.'''
 
     def __str__(self):
-        return ('%s/%s' % (super().__str__(), self.Instance)).rstrip('/')
+        if self.Instance is not None:
+            return ('%s/%s' % (super().__str__(), self.Instance)).rstrip('/')
+        else:
+            return super().__str__()
+
+    def __repr__(self):
+        return str(self)
 
     ''' Determines whether the specified object is equal to this instance.'''
 

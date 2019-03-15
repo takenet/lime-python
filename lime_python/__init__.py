@@ -27,4 +27,4 @@ from lime_python.scope import Scope
 from lime_python.sensitiveInformationDocument \
     import SensitiveInformationDocument
 from lime_python.webLinkDocument import WebLinkDocument, Target
-from lime_python.utils.stringUtils import StringUtils
+from lime_python.stringUtils import StringUtils

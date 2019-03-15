@@ -63,7 +63,7 @@ class Identity:
         with a null value for the instance property.'''
 
     def ToNode(self):
-        from node import Node
+        from lime_python.node import Node
         return Node(self.Name, self.Domain)
 
     ''' Parses the string to a valid Identity.'''

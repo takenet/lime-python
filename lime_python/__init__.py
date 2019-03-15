@@ -15,7 +15,7 @@ from lime_python.menuDocument import MenuDocument
 from lime_python.message import Message
 from lime_python.multimediaMenuDocument import MultimediaMenuDocument
 from lime_python.node import Node
-from lime_python.notification import Notification, Event
+from lime_python.notification import Notification, NotificationEvent
 from lime_python.paymentInvoiceDocument import PaymentInvoiceDocument
 from lime_python.paymentReceiptDocument import PaymentReceiptDocument
 from lime_python.plainTextDocument import PlainTextDocument

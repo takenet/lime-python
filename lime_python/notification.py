@@ -1,9 +1,10 @@
 from lime_python.envelope import Envelope
-from lime_python.reason import Reason
+from lime_python.reason import Reason as NotificationReason
+from lime_python.reason import ReasonCode
 from enum import Enum
 
 
-class Event(Enum):
+class NotificationEvent(Enum):
     Failed = 'failed'
     Accepted = 'accepted'
     Validated = 'validated'
@@ -27,8 +28,8 @@ class Notification(Envelope):
 
     @Event.setter
     def Event(self, event):
-        if event is not None and not isinstance(event, Event):
-            raise ValueError('"Event" must be a Event')
+        if event is not None and not isinstance(event, NotificationEvent):
+            raise ValueError('"Event" must be a NotificationEvent')
         self.__Event = event
 
     @property
@@ -37,7 +38,7 @@ class Notification(Envelope):
 
     @Reason.setter
     def Reason(self, reason):
-        if reason is not None and not isinstance(reason, Reason):
+        if reason is not None and not isinstance(reason, NotificationReason):
             raise ValueError('"Reason" must be a Reason')
         self.__Reason = reason
 
@@ -45,7 +46,7 @@ class Notification(Envelope):
         return {
             **super().ToJson(),
             **{
-                'event': self.Event,
+                'event': self.Event.value,
                 'reason': self.Reason.ToJson()
             }
         }

@@ -25,15 +25,15 @@ class CommandStatus(Enum):
 
 class Command(Envelope):
 
-    def __init__(self, id=None, uri=None, resource=None, method=None,
-                 status=None, reason=None):
-        super().__init__(id)
+    def __init__(self, id=None, fromN=None, to=None, uri=None, resource=None,
+                 method=None, status=None, reason=None):
+        super().__init__(id, fromN, to)
 
         self.Uri = uri
-        self.Resource = resource  # Document
-        self.Method = method  # CommandMethod
-        self.Status = status  # CommandStatus
-        self.Reason = reason  # Reason
+        self.Resource = resource
+        self.Method = method
+        self.Status = status
+        self.Reason = reason
 
     @property
     def Uri(self):

@@ -1,7 +1,7 @@
 # Identity Class
 # Gabriel R Santos (@chr0m1ng)
 ''' Represents an identity in a domain'''
-from lime_python..stringUtils import StringUtils
+from lime_python.stringUtils import StringUtils
 import sys
 
 

@@ -3,7 +3,7 @@ from lime_python.reasonCode import ReasonCode
 
 class Reason:
 
-    def __init__(self, code=None, description=None):
+    def __init__(self, code, description):
         self.Code = code
         self.Description = description
 
@@ -28,13 +28,10 @@ class Reason:
         self.__Description = description
 
     def __str__(self):
-        return '%s (Code %d)' % (self.Description, self.Code)
-
-    def __repr__(self):
-        return str(self)
+        return '%s (Code %s)' % (self.Description, self.Code.value)
 
     def ToJson(self):
         return {
-            'code': self.Code,
+            'code': self.Code.value,
             'description': self.Description
         }

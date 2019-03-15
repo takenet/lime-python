@@ -1,4 +1,4 @@
-from lime_python.utils.stringUtils import StringUtils
+from lime_python..stringUtils import StringUtils
 from lime_python.identity import Identity
 
 

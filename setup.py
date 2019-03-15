@@ -4,13 +4,13 @@ from distutils.core import setup
 setup(
     name='lime_python',
     packages=['lime_python'],
-    version='0.1',
+    version='0.2',
     license='apache-2.0',
     description='This module implements the basic models of the LIME protocol',
     author='Gabriel Rodrigues dos Santos',
     author_email='gabrielrsantoss@icloud.com',
     url='https://github.com/chr0m1ng/lime-python',
-    download_url='https://github.com/chr0m1ng/lime-python/archive/v_01.tar.gz',
+    download_url='https://github.com/chr0m1ng/lime-python/archive/v_02.tar.gz',
     keywords=['lime', 'blip', 'chatbot'],
     install_requires=[],
     classifiers=[

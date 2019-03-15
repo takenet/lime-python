@@ -16,7 +16,7 @@ class NotificationEvent(Enum):
 
 class Notification(Envelope):
 
-    def __init__(self, id=None, to=None, fromN=None event=None, reason=None):
+    def __init__(self, id=None, to=None, fromN=None, event=None, reason=None):
         super().__init__(id, fromN, to)
 
         self.Event = event

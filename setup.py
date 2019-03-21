@@ -11,7 +11,7 @@ setup(
     author='Gabriel Rodrigues dos Santos',
     author_email='gabrielr@take.net',
     url='https://github.com/takenet/lime-python',
-    download_url='https://github.com/takenet/lime-python/archive/v_05.tar.gz',
+    download_url='https://github.com/takenet/lime-python/archive/v_06.tar.gz',
     keywords=['lime', 'blip', 'chatbot'],
     install_requires=[],
     classifiers=[

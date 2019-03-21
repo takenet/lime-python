@@ -1,4 +1,4 @@
-from lime_python.mediaType import MediaType as MT
+from lime_python.base.mediaType import MediaType as MT
 
 
 class Document:

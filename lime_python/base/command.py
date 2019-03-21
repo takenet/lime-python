@@ -1,7 +1,7 @@
-from lime_python.document import Document
-from lime_python.envelope import Envelope
-from lime_python.message import Message
-from lime_python.reason import Reason
+from lime_python.base.document import Document
+from lime_python.base.envelope import Envelope
+from lime_python.base.message import Message
+from lime_python.utils.reason import Reason
 from enum import Enum
 
 

@@ -1,6 +1,6 @@
-from lime_python.envelope import Envelope
-from lime_python.reason import Reason as NotificationReason
-from lime_python.reason import ReasonCode
+from lime_python.base.envelope import Envelope
+from lime_python.utils.reason import Reason as NotificationReason
+from lime_python.utils.reason import ReasonCode
 from enum import Enum
 
 

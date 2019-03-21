@@ -1,5 +1,5 @@
-from lime_python.stringUtils import StringUtils
-from lime_python.identity import Identity
+from lime_python.utils.stringUtils import StringUtils
+from lime_python.base.identity import Identity
 
 
 class Node(Identity):

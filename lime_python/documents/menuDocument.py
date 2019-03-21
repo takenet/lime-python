@@ -1,14 +1,15 @@
-from lime_python.mediaType import MediaType
-from lime_python.document import Document
-from lime_python.header import Header
-from lime_python.scope import Scope
+from lime_python.base.mediaType import MediaType
+from lime_python.base.document import Document
+from lime_python.utils.header import Header
+from lime_python.utils.scope import Scope
 
 
-class _MultimediaMenuDocument(Document):
+class _MenuDocument(Document):
 
-    MIME_TYPE = 'application/vnd.lime.document-select+json'
+    MIME_TYPE = 'application/vnd.lime.select+json'
 
     def __init__(self, scope=Scope.Transient, header=None, options=[]):
+        super().__init__(MediaType.Parse(_MenuDocument.MIME_TYPE))
 
         self.Scope = scope
         self.Header = header
@@ -167,18 +168,22 @@ class _MultimediaMenuDocument(Document):
                         'value': self.GetLabelDocumentJson()
                     }
                 })
-            if isinstance(self.Value, Document) \
-                    or isinstance(self.Value, dict):
+            if isinstance(self.Value, Document):
                 json.update({
                     'value': {
                         'type': str(self.GetValueMediaType()),
                         'value': self.GetValueDocumentJson()
                     }
                 })
+            elif isinstance(self.Value, dict):
+                json.update({
+                    'type': str(self.GetValueMediaType()),
+                    'value': self.GetValueDocumentJson()
+                })
 
             return json
 
 
-class MultimediaMenuDocument(_MultimediaMenuDocument):
+class MenuDocument(_MenuDocument):
 
-    Type = MediaType.Parse(_MultimediaMenuDocument.MIME_TYPE)
+    Type = MediaType.Parse(_MenuDocument.MIME_TYPE)

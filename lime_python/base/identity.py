@@ -1,7 +1,7 @@
 # Identity Class
 # Gabriel R Santos (@chr0m1ng)
 ''' Represents an identity in a domain'''
-from lime_python.stringUtils import StringUtils
+from lime_python.utils.stringUtils import StringUtils
 import sys
 
 
@@ -63,7 +63,7 @@ class Identity:
         with a null value for the instance property.'''
 
     def ToNode(self):
-        from lime_python.node import Node
+        from lime_python.base.node import Node
         return Node(self.Name, self.Domain)
 
     ''' Parses the string to a valid Identity.'''

@@ -3,8 +3,9 @@ from distutils.core import setup
 
 setup(
     name='lime_python',
-    packages=['lime_python'],
-    version='0.5',
+    packages=['lime_python', 'lime_python.base',
+              'lime_python.documents', 'lime_python.utils'],
+    version='0.6',
     license='apache-2.0',
     description='This module implements the basic models of the LIME protocol',
     author='Gabriel Rodrigues dos Santos',

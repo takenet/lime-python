@@ -19,6 +19,8 @@ class Envelope:
         if id is None:
             id = str(uuid.uuid4())
             self.__Id = id
+        else:
+            self.__Id = id
 
     @property
     def From(self):

@@ -112,7 +112,7 @@ class MediaType(_MediaType):
         mtype = splittedMediaType[0]
         splittedSubtype = splittedMediaType[1].split('+')
         subtype = splittedSubtype[0]
-        suffix = ''
+        suffix = None
 
         if len(splittedSubtype) > 1:
             suffix = splittedSubtype[1]

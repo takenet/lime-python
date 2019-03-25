@@ -94,7 +94,7 @@ class _MediaLinkDocument(Document):
             'uri': self.Uri
         }
         if self.MimeType is not None:
-            json.update({'type': self.MimeType})
+            json.update({'type': str(self.MimeType)})
         if self.Text is not None:
             json.update({'text': self.Text})
         if self.Size is not None:

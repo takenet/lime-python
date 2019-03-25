@@ -18,8 +18,9 @@ class _CollectionDocument(Document):
 
     @ItemType.setter
     def ItemType(self, itemType):
-        if itemType is not None and not isinstance(itemType, Document):
+        if itemType is not None and not isinstance(itemType, MediaType):
             raise ValueError('"ItemType" must be a MediaType')
+        self.__ItemType = itemType
 
     @property
     def Items(self):

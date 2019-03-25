@@ -36,7 +36,10 @@ class _MediaLinkDocument(Document):
     @Size.setter
     def Size(self, size):
         if size is not None and not isinstance(size, float):
-            raise ValueError('"Size" must be a float')
+            try:
+                size = float(size)
+            except:
+                raise ValueError('"Size" must be a float')
         self.__Size = size
 
     @property
@@ -75,8 +78,8 @@ class _MediaLinkDocument(Document):
 
     @PreviewType.setter
     def PreviewType(self, previewType):
-        if previewType is not None and not isinstance(previewType, str):
-            raise ValueError('"PreviewType" must be a string')
+        if previewType is not None and not isinstance(previewType, MT):
+            raise ValueError('"PreviewType" must be a MediaType')
         self.__PreviewType = previewType
 
     @property
@@ -104,7 +107,7 @@ class _MediaLinkDocument(Document):
         if self.Title is not None:
             json.update({'title': self.Title})
         if self.PreviewType is not None:
-            json.update({'previewType': self.PreviewType})
+            json.update({'previewType': str(self.PreviewType)})
         if self.PreviewUri is not None:
             json.update({'previewUri': self.PreviewUri})
 

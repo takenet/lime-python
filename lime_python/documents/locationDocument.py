@@ -31,7 +31,10 @@ class _LocationDocument(Document):
     @Latitude.setter
     def Latitude(self, latitude):
         if latitude is not None and not isinstance(latitude, float):
-            raise ValueError('"Latitude" must be a float')
+            try:
+                latitude = float(latitude)
+            except:
+                raise ValueError('"Latitude" must be a float')
         self.__Latitude = latitude
 
     @property
@@ -41,17 +44,23 @@ class _LocationDocument(Document):
     @Longitude.setter
     def Longitude(self, longitude):
         if longitude is not None and not isinstance(longitude, float):
-            raise ValueError('"Logintude" must be a float')
-        self.__Logintude = longitude
+            try:
+                longitude = float(longitude)
+            except:
+                raise ValueError('"Logintude" must be a float')
+        self.__Longitude = longitude
 
     @property
     def Altitude(self):
-        return self.__Altutide
+        return self.__Altitude
 
     @Altitude.setter
     def Altitude(self, altitude):
         if altitude is not None and not isinstance(altitude, float):
-            raise ValueError('"Altitude" must be a float')
+            try:
+                altitude = float(altitude)
+            except:
+                raise ValueError('"Altitude" must be a float')
         self.__Altitude = altitude
 
     def ToJson(self):

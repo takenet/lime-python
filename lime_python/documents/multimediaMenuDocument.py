@@ -46,7 +46,7 @@ class _MultimediaMenuDocument(Document):
         if not isinstance(options, list):
             raise ValueError('"Options" must be a list of Options')
         for o in options:
-            if not isinstance(o, _MenuDocument.Option):
+            if not isinstance(o, _MultimediaMenuDocument.Option):
                 raise ValueError('All items must be Options')
         self.__Options = options
 

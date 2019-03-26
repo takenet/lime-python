@@ -100,12 +100,15 @@ class Command(Envelope):
         return None
 
     def ToJson(self):
-        return {
+        json = {
             **super().ToJson(),
-            **{
-                'method': self.Method,
-                'uri': self.Uri,
-                'type': self.Type,
-                'resource': self.GetDocumentJson()
-            }
+            'method': self.Method.value,
+            'uri': self.Uri
         }
+
+        if self.Resource is not None:
+            json.update({
+                'resource': self.GetDocumentJson(),
+                'type': str(self.Type())
+            })
+        return json

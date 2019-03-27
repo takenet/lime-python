@@ -33,7 +33,7 @@ class _ChatStateDocument(Document):
 
     def ToJson(self):
         return {
-            'state': self.State
+            'state': self.State.value
         }
 
 

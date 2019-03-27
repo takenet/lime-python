@@ -1,7 +1,7 @@
 from lime_python.base.document import Document
 from lime_python.base.envelope import Envelope
 from lime_python.base.message import Message
-from lime_python.utils.reason import Reason
+from lime_python.utils.reason import Reason, ReasonCode
 from enum import Enum
 
 
@@ -100,12 +100,20 @@ class Command(Envelope):
         return None
 
     def ToJson(self):
-        return {
+        json = {
             **super().ToJson(),
-            **{
-                'method': self.Method,
-                'uri': self.Uri,
-                'type': self.Type,
-                'resource': self.GetDocumentJson()
-            }
+            'method': self.Method.value,
+            'uri': self.Uri
         }
+
+        if self.Resource is not None:
+            json.update({
+                'resource': self.GetDocumentJson(),
+                'type': str(self.Type())
+            })
+        if self.Reason is not None:
+            json.update({
+                'status': self.Status.value,
+                'reason': self.Reason.ToJson()
+            })
+        return json

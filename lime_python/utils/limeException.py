@@ -1,0 +1,2 @@
+class LimeException(Exception):
+    pass

@@ -27,12 +27,14 @@
   - [Web Link](#Web%20Link)
     - [Target](#Target)
   - [Menu](#Menu)
-  - [Multimedia Menu](#Multimedia%20Menu)  
+    - [Menu Option](#MenuDocument.Option)
+  - [Multimedia Menu](#Multimedia%20Menu)
+    - [Multimedia Menu Option](#MultimediaMenuDocument.Option)
   - [Sensitive Information](#Sensitive%20Information)
   - [Resource](#Resource)
   - [Redirect](#Redirect)
   - [Payment Invoice](#Payment%20Invoice)
-  - [Payement Receipt](#Payment%20Receipt)
+  - [Payement Receipt](#Payment%20Receipt) -[Payment Method](#PaymentReceiptDocument.PaymentMethod)
   - [List](#List)
   - [Container](#Container)
   - [Collection](#Collection)
@@ -42,6 +44,7 @@
   - [Reason Code](#Reason%20Code)
   - [Reason](#Reason)
   - [Scope](#Scope)
+  - [Payment Item](#Payment%20Item)
 
 # Base
 
@@ -350,10 +353,11 @@ state = ChatStateDocument(ChatState.Composing)
 
 ### Class Information
 
-| Property | Type        |
-| -------- | ----------- |
-| Value    | `string`    |
-| Type     | `MediaType` |
+| Property  | Type        |
+| --------- | ----------- |
+| Value     | `string`    |
+| MIME_TYPE | `string`    |
+| Type      | `MediaType` |
 
 ### Usage
 
@@ -483,6 +487,356 @@ image = MediaLinkDocument(MediaType.Parse('image/jpeg'),
 video = MediaLinkDocument(MediaType.Parse('video/mp4'),
                           uri='http://techslides.com/demos/sample-videos/small.mp4')
 ```
+
+---
+
+## Web Link
+
+You can set the `Target` of the Web Link.
+
+### Class Informations
+
+#### Target
+
+| Enum        |
+| ----------- |
+| Blank       |
+| Self        |
+| SelfCompact |
+| SelfTall    |
+
+#### WebLinkDocument
+
+| Property   | Type        |
+| ---------- | ----------- |
+| Uri        | `string`    |
+| Title      | `string`    |
+| Text       | `string`    |
+| PreviewUri | `string`    |
+| Target     | `Target`    |
+| MIME_TYPE  | `string`    |
+| Type       | `MediaType` |
+
+### Usage
+
+```python
+from lime_python import WebLinkDocument, Target
+
+webLink = WebLinkDocument('http://limeprotocol.org/content-types.html#web-link',
+                              text='Here is a documentation weblink',
+                              target=Target.Self)
+```
+
+---
+
+## Menu
+
+The menu options need to be created with the `MenuDocument.Option` class.
+
+### Class Informations
+
+#### MenuDocument.Option
+
+| Property | Type                    |
+| -------- | ----------------------- |
+| Order    | `integer`               |
+| Label    | `Document`              |
+| Value    | `Document`/`Dictionary` |
+| Text     | `string`                |
+
+#### MenuDocument
+
+| Property  | Type                    |
+| --------- | ----------------------- |
+| Scope     | `Scope`                 |
+| Header    | `Header`/`string`       |
+| Options   | `[MenuDocument.Option]` |
+| Total     | `integer`               |
+| MIME_TYPE | `string`                |
+| Type      | `MediaType`             |
+
+### Usage
+
+```python
+from lime_python import MenuDocument
+
+# Quick Reply
+
+menu = MenuDocument(header='Should I',
+                    options=[
+                        MenuDocument.Option(text='Stay', value={'I': 'stay'}),
+                        MenuDocument.Option(text='Go', value={'I': 'go'})
+                    ])
+```
+
+---
+
+## Multimedia Menu
+
+The multimedia menu options need to be created with the `MultimediaMenuDocument.Option` class.
+
+### Class Informations
+
+#### MultimediaMenuDocument.Option
+
+| Property | Type                    |
+| -------- | ----------------------- |
+| Order    | `integer`               |
+| Label    | `Document`              |
+| Value    | `Document`/`Dictionary` |
+| Text     | `string`                |
+
+#### MultimediaMenuDocument
+
+| Property  | Type                    |
+| --------- | ----------------------- |
+| Scope     | `Scope`                 |
+| Header    | `Header`/`string`       |
+| Options   | `[MenuDocument.Option]` |
+| Total     | `integer`               |
+| MIME_TYPE | `string`                |
+| Type      | `MediaType`             |
+
+### Usage
+
+```python
+from lime_python import MultimediaMenuDocument, MediaType, \
+    MediaLinkDocument, WebLinkDocument, PlainTextDocument, Header
+
+hd1 = Header(MediaLinkDocument(MediaType.Parse('image/jpeg'),
+                               uri='http://www.isharearena.com/wp-content/uploads/2012/12/wallpaper-281049.jpg',
+                               title='Tittle',
+                               text='This is a first item'))
+opts1 = [
+    MultimediaMenuDocument.Option(
+        label=WebLinkDocument('http://www.adoteumgatinho.org.br',
+                              'Link')
+    ),
+    MultimediaMenuDocument.Option(
+        label=PlainTextDocument('Text 1'),
+        value={'key1': 'value1', 'key2': '2'}
+    )
+]
+
+multimediaMenu = MultimediaMenuDocument(header=hd1, options=opts1)
+```
+
+---
+
+## Sensitive Information
+
+### Class Informations
+
+| Property  | Type                    |
+| --------- | ----------------------- |
+| Value     | `Document`/`dictionary` |
+| MIME_TYPE | `string`                |
+| Type      | `MediaType`             |
+
+### Usage
+
+```python
+from lime_python import SensitiveInformationDocument
+
+sensitiveInformation = SensitiveInformationDocument({'cake': 'LIE'})
+```
+
+---
+
+## Resource
+
+### Class Informations
+
+| Property  | Type        |
+| --------- | ----------- |
+| Key       | `string`    |
+| Variables | `dict`      |
+| MIME_TYPE | `string`    |
+| Type      | `MediaType` |
+
+### Usage
+
+```python
+from lime_python import ResourceDocument
+
+resource = ResourceDocument('Welcome-Message')
+otherResource = ResourceDocument('Welcome-Message', {'name': 'Gabriel'})
+```
+
+---
+
+## Redirect
+
+### Class Informations
+
+| Property  | Type        |
+| --------- | ----------- |
+| Address   | `Node`      |
+| Context   | `Document`  |
+| MIME_TYPE | `string`    |
+| Type      | `MediaType` |
+
+### Usage
+
+```python
+from lime_python import RedirectDocument
+
+redirect = RedirectDocument('attendance')
+otherRedirect = RedirectDocument('mysdkbot@msging.net',
+                                 {
+                                     'type': 'text/plain',
+                                     'value': 'Get started'
+                                 })
+```
+
+---
+
+## Payment Invoice
+
+### Class Informations
+
+| Property  | Type            |
+| --------- | --------------- |
+| Currency  | `string`        |
+| DueTo     | `datetime`      |
+| Items     | `[PaymentItem]` |
+| Total     | `integer`       |
+| MIME_TYPE | `string`        |
+| Type      | `MediaType`     |
+
+### Usage
+
+```python
+from lime_python import PaymentInvoiceDocument, PaymentMethod
+from datetime import datetime
+
+paymentInvoice = PaymentInvoiceDocument('BRL',
+                                        datetime.now(),
+                                        [
+                                            PaymentItem(
+                                                1, 300, 'BRL', 'Calça'),
+                                            PaymentItem(3, 3, 'BRL', 'Bolsa')
+                                        ])
+```
+
+---
+
+## Payment Receipt
+
+To create a receipt you need to pass a `PaymentReceiptDocument.PaymentMethod`.
+
+### Class Informations
+
+#### PaymentReceiptDocument.PaymentMethod
+
+| Property | Type     |
+| -------- | -------- |
+| Name     | `string` |
+
+#### PaymentReceiptDocument
+
+| Property  | Type                                   |
+| --------- | -------------------------------------- |
+| PaidOn    | `datetime`                             |
+| Code      | `string`                               |
+| Method    | `PaymentReceiptDocument.PaymentMethod` |
+| Currency  | `string`                               |
+| Items     | `[PaymentItem]`                        |
+| Total     | `integer`                              |
+| MIME_TYPE | `string`                               |
+| Type      | `MediaType`                            |
+
+### Usage
+
+```python
+from lime_python import PaymentReceiptDocument, PaymentItem
+from datetime import datetime
+
+paymentReceipt = PaymentReceiptDocument(datetime.now(),
+                                        'some-uuid',
+                                        'credit card',
+                                        'BRL',
+                                        [
+                                            PaymentItem(1, 505, 'BRL', 'Passagem')
+                                        ])
+```
+
+---
+
+## List
+
+### Class Informations
+
+| Property  | Type         |
+| --------- | ------------ |
+| Header    | `Header`     |
+| Items     | `[Document]` |
+| Total     | `integer`    |
+| MIME_TYPE | `string`     |
+| Type      | `MediaType`  |
+
+### Usage
+
+```python
+from lime_python import ListDocument, PlainTextDocument, \
+    WebLinkDocument, Target
+
+listD = ListDocument(PlainTextDocument('Text header'),
+                     [
+                         WebLinkDocument('http://limeprotocol.org',
+                                         text='Lime Protocol',
+                                         target=Target.Self),
+                         WebLinkDocument('https://take.net',
+                                         text='Take')
+                     ])
+```
+
+---
+
+## Container
+
+### Class Informations
+
+| Property  | Type        |
+| --------- | ----------- |
+| Value     | `Document`  |
+| MIME_TYPE | `string`    |
+| Type      | `MediaType` |
+
+### Usage
+
+```python
+from lime_python import ContainerDocument, PlainTextDocument
+
+container = ContainerDocument(PlainTextDocument('Text inside Container'))
+```
+
+---
+
+## Collection
+
+### Class Informations
+
+| Property  | Type         |
+| --------- | ------------ |
+| ItemType  | `MediaType`  |
+| Items     | `[Document]` |
+| MIME_TYPE | `string`     |
+| Type      | `MediaType`  |
+
+### Usage
+
+```python
+from lime_python import CollectionDocument, PlainTextDocument
+
+collection = CollectionDocument(PlainTextDocument.Type,
+                                [
+                                    PlainTextDocument('First text'),
+                                    PlainTextDocument('Seconde text'),
+                                    PlainTextDocument('Other text')
+                                ])
+```
+
 ---
 
 # Utils
@@ -518,19 +872,20 @@ from lime_python import LimeException
 
 raise LimeException('Some exception involving lime occurred')
 ```
+
 ---
 
 ## Reason Code
 
 ### Class Informations
 
-| Enum                                |
-| ----------------------------------- |
-| GENERAL_ERROR                       |
-| SESSION_ERROR                       |
-| SESSION_REGISTRATION_ERROR          |
-| SESSION_AUTHENTICATION_FAILED       |
-| ...                                 |
+| Enum                                     |
+| ---------------------------------------- |
+| GENERAL_ERROR                            |
+| SESSION_ERROR                            |
+| SESSION_REGISTRATION_ERROR               |
+| SESSION_AUTHENTICATION_FAILED            |
+| ...                                      |
 | [Complete List](/docs/REASON%20CODES.md) |
 
 ### Usage
@@ -542,6 +897,7 @@ print(ReasonCode.GENERAL_ERROR)
 
 print(ReasonCode.GENERAL_ERROR.value)
 ```
+
 ---
 
 ## Reason
@@ -560,6 +916,7 @@ from lime_python import Reason, ReasonCode
 
 reason = Reason(ReasonCode.GENERAL_ERROR, "Hey I, but, I'm still alive")
 ```
+
 ---
 
 ## Scope
@@ -579,4 +936,23 @@ from lime_python import Scope
 
 print(Scope.Immediate)
 print(Scope.Immediate.value)
+```
+
+## Payment Item
+
+### Class Informations
+
+| Property    | Type     |
+| ----------- | -------- |
+| Quantity    | `float`  |
+| Unit        | `float`  |
+| Currency    | `string` |
+| Description | `string` |
+
+### Usage
+
+```python
+from lime_python import PaymentItem
+
+item = PaymentItem(1, 300, 'BRL', 'Calça')
 ```

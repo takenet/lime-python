@@ -66,5 +66,12 @@ class _RedirectDocument(Document):
 
 
 class RedirectDocument(_RedirectDocument):
+    """
+    Representation of a LIME redirect document
+
+    Parameters:
+        address (Node or str)
+        context (Document or str)
+    """
 
     Type = MediaType.Parse(_RedirectDocument.MIME_TYPE)

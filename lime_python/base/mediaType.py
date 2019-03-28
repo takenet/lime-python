@@ -76,8 +76,26 @@ class _MediaType:
 
 
 class MediaType(_MediaType):
+    """
+    Represents a MIME type
+
+    Parameters:
+        inType (str)
+        subtype (str)
+        suffix (str)
+    """
 
     class DiscreteTypes:
+        """
+        Enum of common discrete types
+
+        Values:
+            Application (str)
+            Text (str)
+            image (str)
+            Audio (str)
+            Video (str)
+        """
 
         Application = 'application'
         Text = 'text'
@@ -86,11 +104,30 @@ class MediaType(_MediaType):
         Video = 'video'
 
     class CompositeTypes:
+        """
+        Enum of common composite types
+
+        Values:
+            Message (str)
+            Multipart (str)
+        """
 
         Message = 'message'
         Multipart = 'multipart'
 
     class SubTypes:
+        """
+        Enum of common sub types
+
+        Values:
+            Plain (str)
+            JSON (str)
+            XML (str)
+            HTML (str)
+            JPeg (str)
+            Bitmap (str)
+            Javascript (str)
+        """
 
         Plain = 'plain'
         JSON = 'json'

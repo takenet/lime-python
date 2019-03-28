@@ -2,6 +2,13 @@ from lime_python.base.document import Document
 
 
 class Header:
+    """
+    Representation of a Header element
+
+    Parameters:
+        value (Document)
+    """
+
     def __init__(self, value=None):
         self.Value = value
 

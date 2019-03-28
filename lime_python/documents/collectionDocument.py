@@ -52,5 +52,12 @@ class _CollectionDocument(Document):
 
 
 class CollectionDocument(_CollectionDocument):
+    """
+    Representation of a LIME collection document
+
+    Parameters:
+        itemType (MediaType)
+        items ([Document])
+    """
 
     Type = MediaType.Parse(_CollectionDocument.MIME_TYPE)

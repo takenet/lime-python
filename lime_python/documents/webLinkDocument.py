@@ -4,6 +4,15 @@ from enum import Enum
 
 
 class Target(Enum):
+    """
+    Enum of the available targets to web links
+
+    Values:
+    Blank (str)
+    Self (str)
+    SelfCompact (str)
+    SelfTall (str)
+    """
 
     Blank = 'blank'
     Self = 'self'
@@ -71,6 +80,8 @@ class _WebLinkDocument(Document):
 
     @Target.setter
     def Target(self, target):
+        if isinstance(target, str):
+            target = Target(target)
         if target is not None and not isinstance(target, Target):
             raise ValueError('"Target" must be a Target')
         self.__Target = target
@@ -92,5 +103,15 @@ class _WebLinkDocument(Document):
 
 
 class WebLinkDocument(_WebLinkDocument):
+    """
+    Representation of a LIME web link document
+
+    Parameters:
+        uri (str)
+        title (str)
+        text (str)
+        previewUri (str)
+        target (Target or str)
+    """
 
     Type = MediaType.Parse(_WebLinkDocument.MIME_TYPE)

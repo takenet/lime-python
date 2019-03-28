@@ -6,6 +6,18 @@ from enum import Enum
 
 
 class CommandMethod(Enum):
+    """
+    Enum of the available command's methods
+
+    Values:
+        Get (str)
+        Set (str)
+        Delete (str)
+        Subscribe (str)
+        Unsubscribe (str)
+        Observe (str)
+        Merge (str)
+    """
 
     Get = 'get'
     Set = 'set'
@@ -17,6 +29,14 @@ class CommandMethod(Enum):
 
 
 class CommandStatus(Enum):
+    """
+    Enum of the available command's status
+
+    Values:
+        Pending (str)
+        Success (str)
+        Failure (str)
+    """
 
     Pending = 'pending'
     Success = 'success'
@@ -24,6 +44,19 @@ class CommandStatus(Enum):
 
 
 class Command(Envelope):
+    """
+    Representation of a LIME Command
+
+    Parameters:
+        id (str)
+        fromN (Node)
+        to (Node)
+        uri (str)
+        resource (Document)
+        method (CommandMethod)
+        status (CommandStatus)
+        reason (Reason)
+    """
 
     def __init__(self, id=None, fromN=None, to=None, uri=None, resource=None,
                  method=None, status=None, reason=None):

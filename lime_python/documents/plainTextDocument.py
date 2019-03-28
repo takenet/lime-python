@@ -3,6 +3,12 @@ from lime_python.base.mediaType import MediaType
 
 
 class PlainTextDocument(Document):
+    """
+    Representation of a LIME plain text document
+
+    Parameters:
+        value (str)
+    """
 
     MIME_TYPE = 'text/plain'
     Type = MediaType.TextPlain

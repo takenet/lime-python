@@ -81,5 +81,12 @@ class _ListDocument(Document):
 
 
 class ListDocument(_ListDocument):
+    """
+    Representation of a LIME list document
+
+    Parameters:
+        header (Header)
+        items ([Document])
+    """
 
     Type = MediaType.Parse(_ListDocument.MIME_TYPE)

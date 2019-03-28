@@ -2,6 +2,12 @@ from lime_python.base.mediaType import MediaType as MT
 
 
 class Document:
+    """
+    Representation of a LIME Document
+
+    Parameters:
+        mediaType (MediaType)
+    """
 
     def __init__(self, mediaType):
 

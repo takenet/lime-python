@@ -115,5 +115,18 @@ class _MediaLinkDocument(Document):
 
 
 class MediaLinkDocument(_MediaLinkDocument):
+    """
+    Representation of a LIME media link document
+
+    Parameters:
+    mimeType (MediaType)
+    size (float)
+    aspectRatio (str)
+    uri (str)
+    title (str)
+    text (str)
+    previewType (MediaType)
+    previewUri (str)
+    """
 
     Type = MT.Parse(_MediaLinkDocument.MIME_TYPE)

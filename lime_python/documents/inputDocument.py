@@ -5,11 +5,27 @@ from enum import Enum
 
 
 class Rule(Enum):
+    """
+    Enum of the available validation rules
+
+    Values:
+        Type (str)
+        Text (str)
+    """
+
     Type = 'type'
     Text = 'text'
 
 
 class Validation:
+    """
+    Representation of a input's validation
+
+    Parameters:
+        rule (Rule or str)
+        mediaType (MediaType)
+    """
+
     def __init__(self, rule, mediaType=None):
 
         self.MediaType = mediaType
@@ -21,6 +37,8 @@ class Validation:
 
     @Rule.setter
     def Rule(self, rule):
+        if isinstance(rule, str):
+            rule = Rule(rule)
         if not isinstance(rule, Rule):
             raise ValueError('"Rule" must be a Rule')
         if rule == Rule.Type:
@@ -114,5 +132,12 @@ class _InputDocument(Document):
 
 
 class InputDocument(_InputDocument):
+    """
+    Representation of a LIME input document
+
+    Parameters:
+        label (PlainTextDocument or str)
+        validation (Validation)
+    """
 
     Type = MT.Parse(_InputDocument.MIME_TYPE)

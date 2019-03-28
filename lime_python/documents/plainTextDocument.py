@@ -4,6 +4,9 @@ from lime_python.base.mediaType import MediaType
 
 class PlainTextDocument(Document):
 
+    MIME_TYPE = 'text/plain'
+    Type = MediaType.TextPlain
+
     def __init__(self, value=None):
         super().__init__(MediaType.TextPlain)
         self.Value = value
@@ -17,10 +20,6 @@ class PlainTextDocument(Document):
         if not isinstance(value, str):
             raise ValueError('"Value" must be a string')
         self.__Value = value
-
-    @property
-    def Type(self):
-        return MediaType.TextPlain
 
     def __str__(self):
         if self.Value is not None:

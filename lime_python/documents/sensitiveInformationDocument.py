@@ -18,14 +18,16 @@ class _SensitiveInformationDocument(Document):
 
     @Value.setter
     def Value(self, value):
-        if not isinstance(value, Document):
-            raise ValueError('"Value" must be a Document')
+        if not isinstance(value, Document) and not isinstance(value, dict):
+            raise ValueError('"Value" must be a Document or dict')
         self.__Value = value
 
     def GetValueMediaType(self):
         return self.Value.GetMediaType()
 
     def GetValueJson(self):
+        if isinstance(self.Value, dict):
+            return self.Value
         return self.Value.ToJson()
 
     def ToJson(self):

@@ -30,3 +30,4 @@ from lime_python.documents.sensitiveInformationDocument \
     import SensitiveInformationDocument
 from lime_python.documents.webLinkDocument import WebLinkDocument, Target
 from lime_python.utils.limeException import LimeException
+from lime_python.utils.paymentItem import PaymentItem

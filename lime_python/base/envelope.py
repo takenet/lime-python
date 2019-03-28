@@ -3,6 +3,14 @@ import uuid
 
 
 class Envelope:
+    """
+    Representation of a LIME Envelope
+
+    Parameters:
+        id (str)
+        fromN (Node)
+        to (Node)
+    """
 
     def __init__(self, id=None, fromN=None, to=None):
 

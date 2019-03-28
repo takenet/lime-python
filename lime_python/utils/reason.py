@@ -2,6 +2,13 @@ from lime_python.utils.reasonCode import ReasonCode
 
 
 class Reason:
+    """
+    Representation of a Reason used in failed commands
+
+    Parameters:
+        code (ReasonCode)
+        description (str)
+    """
 
     def __init__(self, code, description):
         self.Code = code

@@ -43,5 +43,12 @@ class _ResourceDocument(Document):
 
 
 class ResourceDocument(_ResourceDocument):
+    """
+    Representation of a LIME resource document
+
+    Parameters:
+        key (str)
+        variables (dict)
+    """
 
     Type = MediaType.Parse(_ResourceDocument.MIME_TYPE)

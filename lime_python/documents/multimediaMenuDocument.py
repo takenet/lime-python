@@ -82,6 +82,16 @@ class _MultimediaMenuDocument(Document):
         return json
 
     class Option:
+        """
+        Representation of a multimedia menu's option
+
+        Parameters:
+            order (int)
+            label (Document)
+            value (Document or dict)
+            text (str)
+        """
+
         def __init__(self, order=None, label=None, value=None, text=None):
 
             self.Order = order
@@ -180,5 +190,13 @@ class _MultimediaMenuDocument(Document):
 
 
 class MultimediaMenuDocument(_MultimediaMenuDocument):
+    """
+    Representation of a LIME multimedia menu document
+
+    Parameters:
+        scope (Scope)
+        header (Header)
+        options ([Option])
+    """
 
     Type = MediaType.Parse(_MultimediaMenuDocument.MIME_TYPE)

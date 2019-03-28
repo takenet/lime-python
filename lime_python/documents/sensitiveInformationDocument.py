@@ -38,5 +38,11 @@ class _SensitiveInformationDocument(Document):
 
 
 class SensitiveInformationDocument(_SensitiveInformationDocument):
+    """
+    Representation of a LIME sensitive information document
+
+    Parameters:
+        value (Document or dict)
+    """
 
     Type = MediaType.Parse(_SensitiveInformationDocument.MIME_TYPE)

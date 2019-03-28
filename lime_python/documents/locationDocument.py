@@ -73,5 +73,14 @@ class _LocationDocument(Document):
 
 
 class LocationDocument(_LocationDocument):
+    """
+    Representation of a LIME location document
+
+    Parameters:
+        text (str)
+        latitude (float)
+        longitude (float)
+        altitude (float)
+    """
 
     Type = MediaType.Parse(_LocationDocument.MIME_TYPE)

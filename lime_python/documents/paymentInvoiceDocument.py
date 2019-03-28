@@ -69,5 +69,12 @@ class _PaymentInvoiceDocument(Document):
 
 
 class PaymentInvoiceDocument(_PaymentInvoiceDocument):
+    """
+    Representation of a LIME payment invoice document
 
+    Parameters:
+        currency (str)
+        dueTo (datetime)
+        items ([PaymentItem])
+    """
     Type = MediaType.Parse(_PaymentInvoiceDocument.MIME_TYPE)

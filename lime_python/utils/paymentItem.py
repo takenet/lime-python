@@ -1,4 +1,13 @@
 class PaymentItem:
+    """
+    Representation of a Item used in payment documents
+
+    Parameters:
+        quantity (float)
+        unit (float)
+        currency (str)
+        description (str)
+    """
 
     def __init__(self, quantity, unit, currency, description):
         self.Quantity = quantity

@@ -4,6 +4,15 @@ from lime_python.base.document import Document
 
 
 class Message(Envelope):
+    """
+    Representation of a LIME Message
+
+    Parameters:
+        id (str)
+        fromN (Node)
+        to (Node)
+        content (Document or dict)
+    """
 
     def __init__(self, id=None, fromN=None, to=None, content=None):
         super().__init__(id, fromN, to)

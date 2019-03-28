@@ -97,6 +97,12 @@ class _PaymentReceiptDocument(Document):
         }
 
     class PaymentMethod:
+        """
+        Representation of a payment method
+
+        Parameters:
+            name (str)
+        """
 
         def __init__(self, name):
             self.Name = name
@@ -118,5 +124,17 @@ class _PaymentReceiptDocument(Document):
 
 
 class PaymentReceiptDocument(_PaymentReceiptDocument):
+    """
+    Representation of a LIME payment receipt document
+
+    Parameters:
+        paidOn (datetime)
+        code (str)
+        method (PaymentMethod)
+        currency (str)
+        dueTo (datetime)
+        items ([PaymentItem])
+
+    """
 
     Type = MediaType.Parse(_PaymentReceiptDocument.MIME_TYPE)

@@ -3,6 +3,8 @@
 
 
 class StringUtils():
-    ''' Check if string is None or Empty.'''
+    """Helper class to handle strings"""
+
     def IsNoneOrEmpty(string):
+        """ Check if string is None or Empty."""
         return string is None or string.isspace()

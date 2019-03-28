@@ -44,5 +44,11 @@ class _ContainerDocument(Document):
 
 
 class ContainerDocument(_ContainerDocument):
+    """
+    Representation of a LIME container document
+
+    Parameters:
+        value (Document)
+    """
 
     Type = MediaType.Parse(_ContainerDocument.MIME_TYPE)

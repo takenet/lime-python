@@ -1,12 +1,18 @@
 # Identity Class
 # Gabriel R Santos (@chr0m1ng)
-''' Represents an identity in a domain'''
 from lime_python.utils.stringUtils import StringUtils
 import sys
 
 
 class Identity:
-    # Initializes a new instance of the Identity class
+    """
+    Represents an identity in a domain
+
+    Parameters:
+        name (str)
+        domain (str)
+    """
+
     def __init__(self, name, domain):
         self.Name = name
         self.Domain = domain

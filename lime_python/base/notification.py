@@ -5,6 +5,19 @@ from enum import Enum
 
 
 class NotificationEvent(Enum):
+    """
+    Enum of the available notification's events
+
+    Value:
+        Failed (str)
+        Accepted (str)
+        Validated (str)
+        Authorized (str)
+        Dispatched (str)
+        Received (str)
+        Consumed (str)
+    """
+
     Failed = 'failed'
     Accepted = 'accepted'
     Validated = 'validated'
@@ -15,6 +28,16 @@ class NotificationEvent(Enum):
 
 
 class Notification(Envelope):
+    """
+    Representation of a LIME Notification
+
+    Parameters:
+        id (str)
+        fromN (Node)
+        to (Node)
+        event (NotificationEvent)
+        reason (Reason)
+    """
 
     def __init__(self, id=None, to=None, fromN=None, event=None, reason=None):
         super().__init__(id, fromN, to)

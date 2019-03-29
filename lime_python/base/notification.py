@@ -65,11 +65,17 @@ class Notification(Envelope):
             raise ValueError('"Reason" must be a Reason')
         self.__Reason = reason
 
+    def GetReasonJson(self):
+        if self.Reason is not None:
+            return self.Reason.ToJson()
+        return None
+
     def ToJson(self):
-        return {
+        json = {
             **super().ToJson(),
-            **{
-                'event': self.Event.value,
-                'reason': self.Reason.ToJson()
-            }
+            'event': self.Event.value
         }
+
+        if self.Reason is not None:
+            json.update({'reason': self.GetReasonJson()})
+        return json

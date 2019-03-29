@@ -19,6 +19,8 @@ class Document:
 
     @MediaType.setter
     def MediaType(self, mediaType):
+        if isinstance(mediaType, str):
+            mediaType = MT.Parse(mediaType)
         if not isinstance(mediaType, MT):
             raise ValueError('"MediaType" must be a MediaType')
         self.__MediaType = mediaType
@@ -30,5 +32,5 @@ class Document:
 
     def ToJson(self):
         return {
-            'type': self.GetMediaType()
+            'type': str(self.GetMediaType())
         }

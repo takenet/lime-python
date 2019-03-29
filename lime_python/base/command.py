@@ -1,7 +1,7 @@
-from lime_python.base.document import Document
+from lime_python.utils.reason import Reason, ReasonCode
+from lime_python.base.mediaType import MediaType
 from lime_python.base.envelope import Envelope
 from lime_python.base.message import Message
-from lime_python.utils.reason import Reason, ReasonCode
 from enum import Enum
 
 
@@ -59,7 +59,7 @@ class Command(Envelope):
     """
 
     def __init__(self, id=None, fromN=None, to=None, uri=None, resource=None,
-                 method=None, status=None, reason=None):
+                 method=None, status=None, reason=None, mediaType=None):
         super().__init__(id, fromN, to)
 
         self.Uri = uri
@@ -67,6 +67,7 @@ class Command(Envelope):
         self.Method = method
         self.Status = status
         self.Reason = reason
+        self.Type = mediaType
 
     @property
     def Uri(self):
@@ -84,8 +85,6 @@ class Command(Envelope):
 
     @Resource.setter
     def Resource(self, resource):
-        if resource is not None and not isinstance(resource, Document):
-            raise ValueError('"Resource" must be a Document')
         self.__Resource = resource
 
     @property
@@ -94,6 +93,8 @@ class Command(Envelope):
 
     @Method.setter
     def Method(self, method):
+        if isinstance(method, str):
+            method = CommandMethod(method)
         if method is not None and not isinstance(method, CommandMethod):
             raise ValueError('"Method" must be a CommandMethod')
         self.__Method = method
@@ -104,6 +105,8 @@ class Command(Envelope):
 
     @Status.setter
     def Status(self, status):
+        if isinstance(status, str):
+            status = CommandStatus(status)
         if status is not None and not isinstance(status, CommandStatus):
             raise ValueError('"Status" must be a CommandStatus')
         self.__Status = status
@@ -118,35 +121,45 @@ class Command(Envelope):
             raise ValueError('"Reason" must be a Reason')
         self.__Reason = reason
 
+    @property
     def Type(self):
-        return self.Resource.GetMediaType()
+        return self.__Type
 
-    def SetDocument(self, document):
-        self.Resource = document
+    @Type.setter
+    def Type(self, mediaType):
+        if isinstance(mediaType, str):
+            mediaType = MediaType.Parse(mediaType)
+        if mediaType is not None and not isinstance(mediaType, MediaType):
+            raise ValueError('"Type" must be a str or MediaType')
+        self.__Type = mediaType
 
-    def GetDocument(self):
-        return self.Resource
-
-    def GetDocumentJson(self):
+    def GetResourceJson(self):
         if self.Resource is not None:
-            return self.Resource.ToJson()
+            try:
+                return self.Resource.ToJson()
+            except:
+                return str(self.Resource)
         return None
 
     def ToJson(self):
         json = {
             **super().ToJson(),
-            'method': self.Method.value,
-            'uri': self.Uri
+            'method': self.Method.value
         }
-
+        if self.Uri is not None:
+            json.update({'uri': self.Uri})
+        if self.Status is not None:
+            json.update({'status': self.Status.value})
+        if self.Type is not None:
+            json.update({'type': str(self.Type)})
         if self.Resource is not None:
+            resourceName = type(self.Resource).__name__.lower()
             json.update({
-                'resource': self.GetDocumentJson(),
-                'type': str(self.Type())
+                'resource': {
+                    resourceName: self.GetResourceJson()
+                }
             })
         if self.Reason is not None:
-            json.update({
-                'status': self.Status.value,
-                'reason': self.Reason.ToJson()
-            })
+            json.update({'reason': self.Reason.ToJson()})
+
         return json

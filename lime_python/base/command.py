@@ -53,9 +53,10 @@ class Command(Envelope):
         to (Node)
         uri (str)
         resource (Document)
-        method (CommandMethod)
-        status (CommandStatus)
+        method (CommandMethod or str)
+        status (CommandStatus or str)
         reason (Reason)
+        mediaType (MediaType or str)
     """
 
     def __init__(self, id=None, fromN=None, to=None, uri=None, resource=None,

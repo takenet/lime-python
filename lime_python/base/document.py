@@ -6,7 +6,7 @@ class Document:
     Representation of a LIME Document
 
     Parameters:
-        mediaType (MediaType)
+        mediaType (MediaType or str)
     """
 
     def __init__(self, mediaType):

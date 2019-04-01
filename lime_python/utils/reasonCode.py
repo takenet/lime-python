@@ -50,6 +50,7 @@ class ReasonCode(Enum):
         GATEWAY_OPERATION_TIMED_OUT (int)
         GATEWAY_UNAUTHORIZED_SENDER (int)
         APPLICATION_ERROR (int)
+        INVALID_LIST_IDENTIFIER (int)
     """
 
     GENERAL_ERROR = 1

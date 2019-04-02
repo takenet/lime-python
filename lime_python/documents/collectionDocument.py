@@ -30,10 +30,10 @@ class _CollectionDocument(Document):
     def Items(self, items):
         if not isinstance(items, list):
             raise ValueError(
-                '"Items" must be a list of Document')
+                '"Items" must be a list of the given type')
         for i in items:
-            if not isinstance(i, Document):
-                raise ValueError('All Items must be a Document')
+            if not isinstance(i, Document) and not isinstance(i, dict):
+                raise ValueError('All Items must be a Document or dict')
 
         self.__Items = items
 
@@ -42,6 +42,8 @@ class _CollectionDocument(Document):
         return len(self.Items)
 
     def GetDocumentsJson(self):
+        if self.ItemType == MediaType.ApplicationJson:
+            return self.Items
         return [x.ToJson() for x in self.Items]
 
     def ToJson(self):

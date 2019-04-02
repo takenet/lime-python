@@ -1,18 +1,18 @@
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
 from lime_python.utils.header import Header
-from lime_python.utils.scope import Scope
+from lime_python.utils.scope import Scope as SCP
 
 
 class _MenuDocument(Document):
 
     MIME_TYPE = 'application/vnd.lime.select+json'
 
-    def __init__(self, scope=Scope.Transient, header=None, options=[]):
+    def __init__(self, scope=None, text=None, options=[]):
         super().__init__(MediaType.Parse(_MenuDocument.MIME_TYPE))
 
         self.Scope = scope
-        self.Header = header
+        self.Text = text
         self.Options = options
 
     @property
@@ -21,22 +21,21 @@ class _MenuDocument(Document):
 
     @Scope.setter
     def Scope(self, scope):
-        if not isinstance(scope, Scope):
+        if isinstance(scope, str):
+            scope = SCP(scope)
+        if scope is not None and not isinstance(scope, SCP):
             raise ValueError('"Scope" must be a Scope')
         self.__Scope = scope
 
     @property
-    def Header(self):
-        return self.__Header
+    def Text(self):
+        return self.__Text
 
-    @Header.setter
-    def Header(self, header):
-        if header is not None and not isinstance(header, Header):
-            if isinstance(header, Document):
-                header = Header(header)
-            elif not isinstance(header, str):
-                raise ValueError('"Header" must be a Header or string')
-        self.__Header = header
+    @Text.setter
+    def Text(self, text):
+        if not isinstance(text, str):
+            raise ValueError('"Text" must be a string')
+        self.__Text = text
 
     @property
     def Options(self):
@@ -58,27 +57,15 @@ class _MenuDocument(Document):
     def GetOptionsJson(self):
         return [x.ToJson() for x in self.Options]
 
-    def GetHeaderType(self):
-        if self.Header is not None:
-            return self.Header.GetMediaType()
-        return None
-
-    def GetHeaderJson(self):
-        if self.Header is not None:
-            return self.Header.ToJson()
-        return None
-
     def ToJson(self):
         json = {
-            'scope': self.Scope.value
+            'options': self.GetOptionsJson()
         }
 
-        if isinstance(self.Header, str):
-            json.update({'text': self.Header})
-        else:
-            json.update({'header': self.GetHeaderJson()})
-
-        json.update({'options': self.GetOptionsJson()})
+        if self.Scope is not None:
+            json.update({'scope': self.Scope.value})
+        if self.Text is not None:
+            json.update({'text': self.Text})
 
         return json
 
@@ -88,15 +75,13 @@ class _MenuDocument(Document):
 
         Parameters:
             order (int)
-            label (Document)
             value (Document or dict)
             text (str)
         """
 
-        def __init__(self, order=None, label=None, value=None, text=None):
+        def __init__(self, order=None, value=None, text=None):
 
             self.Order = order
-            self.Label = label
             self.Value = value
             self.Text = text
 
@@ -109,16 +94,6 @@ class _MenuDocument(Document):
             if order is not None and not isinstance(order, int):
                 raise ValueError('"Order" must be a integer')
             self.__Order = order
-
-        @property
-        def Label(self):
-            return self.__Label
-
-        @Label.setter
-        def Label(self, label):
-            if label is not None and not isinstance(label, Document):
-                raise ValueError('"Label" must be a Document')
-            self.__Label = label
 
         @property
         def Value(self):
@@ -166,26 +141,12 @@ class _MenuDocument(Document):
             return None
 
         def ToJson(self):
-            json = {}
+            json = {
+                'text': self.Text
+            }
             if isinstance(self.Order, int):
                 json.update({'order': self.Order})
-            if self.Text is not None:
-                json.update({'text': self.Text})
-            elif self.Label is not None:
-                json.update({
-                    'label': {
-                        'type': str(self.GetLabelMediaType()),
-                        'value': self.GetLabelDocumentJson()
-                    }
-                })
-            if isinstance(self.Value, Document):
-                json.update({
-                    'value': {
-                        'type': str(self.GetValueMediaType()),
-                        'value': self.GetValueDocumentJson()
-                    }
-                })
-            elif isinstance(self.Value, dict):
+            if self.Value is not None:
                 json.update({
                     'type': str(self.GetValueMediaType()),
                     'value': self.GetValueDocumentJson()
@@ -199,8 +160,8 @@ class MenuDocument(_MenuDocument):
     Representation of a LIME menu document
 
     Parameters:
-        scope (Scope)
-        header (Header)
+        scope (Scope or str)
+        text (str)
         options ([Option])
     """
 

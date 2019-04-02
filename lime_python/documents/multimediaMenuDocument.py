@@ -1,14 +1,15 @@
+from lime_python.documents.plainTextDocument import PlainTextDocument
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
-from lime_python.utils.header import Header
-from lime_python.utils.scope import Scope
+from lime_python.utils.header import Header as HD
+from lime_python.utils.scope import Scope as SCP
 
 
 class _MultimediaMenuDocument(Document):
 
     MIME_TYPE = 'application/vnd.lime.document-select+json'
 
-    def __init__(self, scope=Scope.Transient, header=None, options=[]):
+    def __init__(self, scope=None, header=None, options=[]):
 
         self.Scope = scope
         self.Header = header
@@ -20,7 +21,9 @@ class _MultimediaMenuDocument(Document):
 
     @Scope.setter
     def Scope(self, scope):
-        if not isinstance(scope, Scope):
+        if isinstance(scope, str):
+            scope = SCP(scope)
+        if scope is not None and not isinstance(scope, SCP):
             raise ValueError('"Scope" must be a Scope')
         self.__Scope = scope
 
@@ -30,11 +33,14 @@ class _MultimediaMenuDocument(Document):
 
     @Header.setter
     def Header(self, header):
-        if header is not None and not isinstance(header, Header):
+        if isinstance(header, str):
+            header = HD(header)
+        if header is not None and not isinstance(header, HD):
             if isinstance(header, Document):
-                header = Header(header)
-            elif not isinstance(header, str):
-                raise ValueError('"Header" must be a Header or string')
+                header = HD(header)
+            else:
+                raise ValueError(
+                    '"Header" must be a Header, Document or string')
         self.__Header = header
 
     @property
@@ -69,15 +75,12 @@ class _MultimediaMenuDocument(Document):
 
     def ToJson(self):
         json = {
-            'scope': self.Scope.value
+            'options': self.GetOptionsJson()
         }
-
-        if isinstance(self.Header, str):
-            json.update({'text': self.Header})
-        else:
+        if self.Scope is not None:
+            json.update({'scope': self.Scope.value})
+        if self.Header is not None:
             json.update({'header': self.GetHeaderJson()})
-
-        json.update({'options': self.GetOptionsJson()})
 
         return json
 
@@ -87,17 +90,15 @@ class _MultimediaMenuDocument(Document):
 
         Parameters:
             order (int)
-            label (Document)
+            label (Document or str)
             value (Document or dict)
-            text (str)
         """
 
-        def __init__(self, order=None, label=None, value=None, text=None):
+        def __init__(self, order=None, label=None, value=None):
 
             self.Order = order
             self.Label = label
             self.Value = value
-            self.Text = text
 
         @property
         def Order(self):
@@ -115,6 +116,8 @@ class _MultimediaMenuDocument(Document):
 
         @Label.setter
         def Label(self, label):
+            if isinstance(label, str):
+                label = PlainTextDocument(label)
             if label is not None and not isinstance(label, Document):
                 raise ValueError('"Label" must be a Document')
             self.__Label = label
@@ -129,16 +132,6 @@ class _MultimediaMenuDocument(Document):
                                           isinstance(value, Document)):
                 raise ValueError('"Value" must be a Document or Dict')
             self.__Value = value
-
-        @property
-        def Text(self):
-            return self.__Text
-
-        @Text.setter
-        def Text(self, text):
-            if text is not None and not isinstance(text, str):
-                raise ValueError('"Text" must be a string')
-            self.__Text = text
 
         def GetLabelDocumentJson(self):
             if self.Label is not None:
@@ -168,8 +161,6 @@ class _MultimediaMenuDocument(Document):
             json = {}
             if isinstance(self.Order, int):
                 json.update({'order': self.Order})
-            if self.Text is not None:
-                json.update({'text': self.Text})
             elif self.Label is not None:
                 json.update({
                     'label': {
@@ -177,8 +168,7 @@ class _MultimediaMenuDocument(Document):
                         'value': self.GetLabelDocumentJson()
                     }
                 })
-            if isinstance(self.Value, Document) \
-                    or isinstance(self.Value, dict):
+            if self.Value is not None:
                 json.update({
                     'value': {
                         'type': str(self.GetValueMediaType()),

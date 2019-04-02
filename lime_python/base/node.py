@@ -47,7 +47,7 @@ class Node(Identity):
         """Returns a hash code for this instance."""
         return super().__hash__()
 
-    def Parse(str):
+    def Parse(string):
         """Parses the string to a valid Node."""
         if StringUtils.IsNoneOrEmpty(string):
             raise TypeError

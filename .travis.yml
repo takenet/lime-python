@@ -1,0 +1,21 @@
+language: python
+python:
+  - "3.5"
+  - "3.6"
+matrix:
+  include:
+  - python: 3.7
+    dist: xenial
+    sudo: true
+install:
+- pip install .
+script: pytest
+deploy:
+  provider: pypi
+  user: "chr0m1ng"
+  password:
+    secure: gZqEb2MtaWvMTlcZE4EtD0ZqaR2jp2ZNjauXvMiGraAUhHoGYzyZ+hZcOqnCx03G2Ysd3cf3yVPfGCPiM+497pgpIZxMWhwTQnokjpx20KYZzCeGO7NQooR5BFUui+1DikJTT33nS3Ht7S3zB9Z6jIkTXF2X1I4n44IDtYMbgly11HheB+9FFdT+pX2foKPJRt3ycsgIgy1CGj6Te1snLABud78seUi7bBqZVW29zoEYGiuXobXN8JnZbf/OwPQMC/4iOdVDxpbYPv5YdaZhlZi1tOeyMENEMqpHz/9gn1zDQ8/jz7OJc7PUipGlIQxUPSiDGIuSnsalS9vXVHqwxmBhLUUpyovt+GuhW6nLuR6ab3/kuVoEAvBmrVL1CKeI5IxRcvqyvucUBOzP5Z3VxaTF9YMrXRAFrtfUp+HaTYdCKLVmg9kp2Wd0+HNBr7MlnDQhloD/Gj3IvOpOpf1sjFFt7pcCwRdtDAXsGvvvgMpWB5G56pdU7MpYtPEYclPmGQqn1lxzw3j3iM5+ZU0Jrm72eBOhXs8yyiSpghJOwDpjx9TRVvw3pzx3poZMBszZoj9pc3SfsGx32BcaNf+lb+PGBFm7By/eA5k4VQiyrklo/r60EJLJvWQ14CA3Dv9sZ7jF1OAVuITf4v+cA2gj6wrKKJ8vKPC8Ai88OfuCHl0=
+  if: branch = master AND tag IS present
+
+notifications:
+  email: false

@@ -1,5 +1,6 @@
-from lime_python.base.document import Document
+from lime_python.documents.plainTextDocument import PlainTextDocument
 from lime_python.base.mediaType import MediaType
+from lime_python.base.document import Document
 
 
 class _ContainerDocument(Document):
@@ -16,8 +17,11 @@ class _ContainerDocument(Document):
 
     @Value.setter
     def Value(self, value):
-        if value is not None and not isinstance(value, Document):
-            raise ValueError('"Value" must be a Document')
+        if isinstance(value, str):
+            value = PlainTextDocument(value)
+        if value is not None and not isinstance(value, Document) and\
+                not isinstance(value, dict):
+            raise ValueError('"Value" must be a Document, dict or str')
         self.__Value = value
 
     def GetDocument(self):
@@ -25,6 +29,8 @@ class _ContainerDocument(Document):
 
     def GetDocumentJson(self):
         if self.Value is not None:
+            if isinstance(self.Value, dict):
+                return self.Value
             return self.Value.ToJson()
         return None
 
@@ -33,6 +39,8 @@ class _ContainerDocument(Document):
 
     def ValueType(self):
         if self.Value is not None:
+            if isinstance(self.Value, dict):
+                return MediaType.ApplicationJson
             return self.Value.GetMediaType()
         return None
 
@@ -48,7 +56,7 @@ class ContainerDocument(_ContainerDocument):
     Representation of a LIME container document
 
     Parameters:
-        value (Document)
+        value (Document, dict or str)
     """
 
     Type = MediaType.Parse(_ContainerDocument.MIME_TYPE)

@@ -540,7 +540,6 @@ The menu options need to be created with the `MenuDocument.Option` class.
 | Property | Type                    |
 | -------- | ----------------------- |
 | Order    | `integer`               |
-| Label    | `Document`              |
 | Value    | `Document`/`Dictionary` |
 | Text     | `string`                |
 
@@ -549,7 +548,7 @@ The menu options need to be created with the `MenuDocument.Option` class.
 | Property  | Type                    |
 | --------- | ----------------------- |
 | Scope     | `Scope`                 |
-| Header    | `Header`/`string`       |
+| Text      | `string`                |
 | Options   | `[MenuDocument.Option]` |
 | Total     | `integer`               |
 | MIME_TYPE | `string`                |
@@ -562,7 +561,7 @@ from lime_python import MenuDocument
 
 # Quick Reply
 
-menu = MenuDocument(header='Should I',
+menu = MenuDocument(text='Should I',
                     options=[
                         MenuDocument.Option(text='Stay', value={'I': 'stay'}),
                         MenuDocument.Option(text='Go', value={'I': 'go'})
@@ -584,7 +583,6 @@ The multimedia menu options need to be created with the `MultimediaMenuDocument.
 | Order    | `integer`               |
 | Label    | `Document`              |
 | Value    | `Document`/`Dictionary` |
-| Text     | `string`                |
 
 #### MultimediaMenuDocument
 

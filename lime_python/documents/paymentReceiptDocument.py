@@ -130,7 +130,7 @@ class PaymentReceiptDocument(_PaymentReceiptDocument):
     Parameters:
         paidOn (datetime)
         code (str)
-        method (PaymentMethod)
+        method (PaymentMethod or str)
         currency (str)
         dueTo (datetime)
         items ([PaymentItem])

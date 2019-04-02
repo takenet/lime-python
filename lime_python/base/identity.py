@@ -13,7 +13,7 @@ class Identity:
         domain (str)
     """
 
-    def __init__(self, name, domain):
+    def __init__(self, name, domain=None):
         self.Name = name
         self.Domain = domain
 

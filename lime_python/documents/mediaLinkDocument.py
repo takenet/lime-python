@@ -25,8 +25,10 @@ class _MediaLinkDocument(Document):
 
     @MimeType.setter
     def MimeType(self, mimeType):
+        if isinstance(mimeType, str):
+            mimeType = MT.Parse(mimeType)
         if mimeType is not None and not isinstance(mimeType, MT):
-            raise ValueError('"MimeType" must be a MimeType')
+            raise ValueError('"MimeType" must be a MimeType or str')
         self.__MimeType = mimeType
 
     @property
@@ -78,8 +80,10 @@ class _MediaLinkDocument(Document):
 
     @PreviewType.setter
     def PreviewType(self, previewType):
+        if isinstance(previewType, str):
+            previewType = MT.Parse(previewType)
         if previewType is not None and not isinstance(previewType, MT):
-            raise ValueError('"PreviewType" must be a MediaType')
+            raise ValueError('"PreviewType" must be a MediaType or str')
         self.__PreviewType = previewType
 
     @property
@@ -119,13 +123,13 @@ class MediaLinkDocument(_MediaLinkDocument):
     Representation of a LIME media link document
 
     Parameters:
-    mimeType (MediaType)
+    mimeType (MediaType or str)
     size (float)
     aspectRatio (str)
     uri (str)
     title (str)
     text (str)
-    previewType (MediaType)
+    previewType (MediaType or str)
     previewUri (str)
     """
 

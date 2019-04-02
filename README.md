@@ -1,4 +1,4 @@
-# lime-python
+# lime-python [![Build Status](https://travis-ci.org/takenet/lime-python.svg?branch=master)](https://travis-ci.org/takenet/lime-python)
 
 The goal of this project is to implement the basic models of the LIME protocol.
 

@@ -97,7 +97,7 @@ class _WebLinkDocument(Document):
         if self.PreviewUri is not None:
             json.update({'previewUri': self.PreviewUri})
         if self.Target is not None:
-            json.update({'target': self.Target})
+            json.update({'target': self.Target.value})
 
         return json
 

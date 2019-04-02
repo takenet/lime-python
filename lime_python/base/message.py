@@ -38,6 +38,9 @@ class Message(Envelope):
         else:
             return None
 
+    def GetMediaType(self):
+        return self.Content.GetMediaType()
+
     def SetDocument(self, document):
         self.Content = document
 

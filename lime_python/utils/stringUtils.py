@@ -7,4 +7,4 @@ class StringUtils():
 
     def IsNoneOrEmpty(string):
         """ Check if string is None or Empty."""
-        return string is None or string.isspace()
+        return string is None or string.isspace() or len(string) == 0

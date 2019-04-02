@@ -1,3 +1,4 @@
+from lime_python.documents.plainTextDocument import PlainTextDocument
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
 
@@ -18,8 +19,10 @@ class _SensitiveInformationDocument(Document):
 
     @Value.setter
     def Value(self, value):
+        if isinstance(value, str):
+            value = PlainTextDocument(value)
         if not isinstance(value, Document) and not isinstance(value, dict):
-            raise ValueError('"Value" must be a Document or dict')
+            raise ValueError('"Value" must be a Document, dict or str')
         self.__Value = value
 
     def GetValueMediaType(self):
@@ -42,7 +45,7 @@ class SensitiveInformationDocument(_SensitiveInformationDocument):
     Representation of a LIME sensitive information document
 
     Parameters:
-        value (Document or dict)
+        value (Document, dict or str)
     """
 
     Type = MediaType.Parse(_SensitiveInformationDocument.MIME_TYPE)

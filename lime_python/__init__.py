@@ -31,3 +31,6 @@ from lime_python.documents.sensitiveInformationDocument \
 from lime_python.documents.webLinkDocument import WebLinkDocument, Target
 from lime_python.utils.limeException import LimeException
 from lime_python.utils.paymentItem import PaymentItem
+from lime_python.utils.paymentMethod import PaymentMethod
+from lime_python.utils.documentsType import GetDocumentByMediaType
+from lime_python.utils.baseType import GetBaseByClassName

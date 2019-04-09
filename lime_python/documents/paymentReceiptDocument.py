@@ -1,3 +1,4 @@
+from lime_python.utils.paymentMethod import PaymentMethod
 from lime_python.utils.paymentItem import PaymentItem
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
@@ -45,8 +46,8 @@ class _PaymentReceiptDocument(Document):
     @Method.setter
     def Method(self, method):
         if isinstance(method, str):
-            method = PaymentReceiptDocument.PaymentMethod(method)
-        if not isinstance(method, PaymentReceiptDocument.PaymentMethod):
+            method = PaymentMethod(method)
+        if not isinstance(method, PaymentMethod):
             raise ValueError('"Method" must be a PaymentMethod')
         self.__Method = method
 
@@ -96,32 +97,6 @@ class _PaymentReceiptDocument(Document):
             'items': self.GetItemsJson()
         }
 
-    class PaymentMethod:
-        """
-        Representation of a payment method
-
-        Parameters:
-            name (str)
-        """
-
-        def __init__(self, name):
-            self.Name = name
-
-        @property
-        def Name(self):
-            return self.__Name
-
-        @Name.setter
-        def Name(self, name):
-            if not isinstance(name, str):
-                raise ValueError('"Name" must be a string')
-            self.__Name = name
-
-        def ToJson(self):
-            return {
-                'name': self.Name
-            }
-
 
 class PaymentReceiptDocument(_PaymentReceiptDocument):
     """
@@ -138,3 +113,25 @@ class PaymentReceiptDocument(_PaymentReceiptDocument):
     """
 
     Type = MediaType.Parse(_PaymentReceiptDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            method = PaymentMethod.FromJson(inJson['method'])
+            return PaymentReceiptDocument(
+                datetime.strptime(
+                    inJson['paidOn'],
+                    '%Y-%m-%dT%H:%M:%SZ'
+                ),
+                inJson['code'],
+                method,
+                inJson['currency'],
+                [
+                    PaymentItem.FromJson(x)
+                    for x in inJson['items']
+                ]
+            )
+        except KeyError:
+            raise ValueError('The given json is not a PaymentReceiptDocument')

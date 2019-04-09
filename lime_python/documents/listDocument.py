@@ -1,6 +1,7 @@
+from lime_python.utils.documentsType import GetDocumentByMediaType
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
-from lime_python.utils.header import Header
+from lime_python.utils.header import Header as HD
 
 
 class _ListDocument(Document):
@@ -18,9 +19,9 @@ class _ListDocument(Document):
 
     @Header.setter
     def Header(self, header):
-        if header is not None and not isinstance(header, Header):
+        if header is not None and not isinstance(header, HD):
             if isinstance(header, Document):
-                header = Header(header)
+                header = HD(header)
             else:
                 raise ValueError('"Header" must be a Header')
         self.__Header = header
@@ -43,14 +44,6 @@ class _ListDocument(Document):
         if self.Items is not None:
             return len(self.Items)
         return None
-
-    def GetHeaderDocument(self):
-        if self.Header is not None:
-            return self.Header
-        return None
-
-    def SetHeaderDocument(self, document):
-        self.Header = Header(document)
 
     def GetHeaderJson(self):
         if self.Header is not None:
@@ -90,3 +83,17 @@ class ListDocument(_ListDocument):
     """
 
     Type = MediaType.Parse(_ListDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            header = HD.FromJson(inJson['header'])
+            items = [
+                GetDocumentByMediaType(item['type']).FromJson(item['value'])
+                for item in inJson['items']
+            ]
+            return ListDocument(header, items)
+        except KeyError:
+            raise ValueError('The given json is not a InputDocument')

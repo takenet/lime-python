@@ -38,7 +38,9 @@ def test_header():
 
     header = Header(WebLinkDocument('http://take.net', 'take', 'take'))
 
-    assert expectedJson == header.ToJson()
+    assert expectedJson == header.ToJson() == \
+        Header.FromJson(expectedJson).ToJson() == \
+        Header.FromJson(header.ToJson()).ToJson()
 
 
 def test_limeexception():
@@ -64,7 +66,9 @@ def test_paymentitem():
 
     item = PaymentItem(3, 3, 'BRL', 'bolsa')
 
-    assert expectedJson == item.ToJson()
+    assert expectedJson == item.ToJson() == \
+        PaymentItem.FromJson(expectedJson).ToJson() == \
+        PaymentItem.FromJson(item.ToJson()).ToJson()
 
     expectedJson = {
         'quantity': 1.0,
@@ -76,7 +80,31 @@ def test_paymentitem():
 
     item = PaymentItem(1, 10.85, 'BRL', 'açai 500ml')
 
-    assert expectedJson == item.ToJson()
+    assert expectedJson == item.ToJson() == \
+        PaymentItem.FromJson(expectedJson).ToJson() == \
+        PaymentItem.FromJson(item.ToJson()).ToJson()
+
+
+def test_paymentmethod():
+    expectedJson = {
+        'name': 'credit card'
+    }
+
+    method = PaymentMethod('credit card')
+
+    assert expectedJson == method.ToJson() == \
+        PaymentMethod.FromJson(expectedJson).ToJson() == \
+        PaymentMethod.FromJson(method.ToJson()).ToJson()
+
+    expectedJson = {
+        'name': 'money'
+    }
+
+    method = PaymentMethod('money')
+
+    assert expectedJson == method.ToJson() == \
+        PaymentMethod.FromJson(expectedJson).ToJson() == \
+        PaymentMethod.FromJson(method.ToJson()).ToJson()
 
 
 def test_reasoncode():
@@ -137,7 +165,9 @@ def test_reason():
 
     reason = Reason(ReasonCode.GENERAL_ERROR, 'ocorreu um erro')
 
-    assert expectedJson == reason.ToJson()
+    assert expectedJson == reason.ToJson() == \
+        Reason.FromJson(expectedJson).ToJson() == \
+        Reason.FromJson(reason.ToJson()).ToJson()
 
     expectedJson = {
         'code': 11,
@@ -146,7 +176,9 @@ def test_reason():
 
     reason = Reason(ReasonCode.SESSION_ERROR, 'erro na sessão')
 
-    assert expectedJson == reason.ToJson()
+    assert expectedJson == reason.ToJson() == \
+        Reason.FromJson(expectedJson).ToJson() == \
+        Reason.FromJson(reason.ToJson()).ToJson()
 
 
 def test_scope():

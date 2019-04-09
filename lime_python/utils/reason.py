@@ -6,7 +6,7 @@ class Reason:
     Representation of a Reason used in failed commands
 
     Parameters:
-        code (ReasonCode)
+        code (ReasonCode, str or int)
         description (str)
     """
 
@@ -20,6 +20,8 @@ class Reason:
 
     @Code.setter
     def Code(self, code):
+        if isinstance(code, str) or isinstance(code, int):
+            code = ReasonCode(int(code))
         if code is not None and not isinstance(code, ReasonCode):
             raise ValueError('"Code" must be a ReasonCode')
         self.__Code = code
@@ -42,3 +44,15 @@ class Reason:
             'code': self.Code.value,
             'description': self.Description
         }
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            return Reason(
+                inJson['code'],
+                inJson['description']
+            )
+        except KeyError:
+            raise ValueError('The given json is not a Reason')

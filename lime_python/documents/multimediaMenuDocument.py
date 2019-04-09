@@ -1,4 +1,5 @@
 from lime_python.documents.plainTextDocument import PlainTextDocument
+from lime_python.utils.documentsType import GetDocumentByMediaType
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
 from lime_python.utils.header import Header as HD
@@ -178,6 +179,42 @@ class _MultimediaMenuDocument(Document):
 
             return json
 
+        @staticmethod
+        def FromJson(inJson):
+            if isinstance(inJson, str):
+                inJson = json.loads(inJson)
+            try:
+                order = ('order' in inJson and inJson['order']) or None
+
+                if 'label' in inJson:
+                    label = GetDocumentByMediaType(
+                        inJson['label']['type']
+                    ).FromJson(inJson['label']['value'])
+                else:
+                    label = None
+
+                if 'value' in inJson:
+                    valueType = GetDocumentByMediaType(
+                        inJson['value']['type']
+                    )
+                    if valueType == dict:
+                        value = inJson['value']['value']
+                    else:
+                        value = valueType.FromJson(
+                            inJson['value']['value']
+                        )
+                else:
+                    value = None
+
+                return MultimediaMenuDocument.Option(
+                    order,
+                    label,
+                    value
+                )
+            except KeyError:
+                raise ValueError(
+                    'The given json is not a MultimediaMenuDocument')
+
 
 class MultimediaMenuDocument(_MultimediaMenuDocument):
     """
@@ -190,3 +227,25 @@ class MultimediaMenuDocument(_MultimediaMenuDocument):
     """
 
     Type = MediaType.Parse(_MultimediaMenuDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            scope = ('scope' in inJson and inJson['scope']) or None
+            header = (
+                'header' in inJson and
+                HD.FromJson(inJson['header'])
+            ) or None
+
+            return MultimediaMenuDocument(
+                scope,
+                header,
+                [
+                    MultimediaMenuDocument.Option.FromJson(x)
+                    for x in inJson['options']
+                ]
+            )
+        except KeyError:
+            raise ValueError('The given json is not a MultimediaMenuDocument')

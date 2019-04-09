@@ -1,4 +1,5 @@
 from lime_python.documents.plainTextDocument import PlainTextDocument
+from lime_python.utils.documentsType import GetDocumentByMediaType
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
 
@@ -60,3 +61,18 @@ class ContainerDocument(_ContainerDocument):
     """
 
     Type = MediaType.Parse(_ContainerDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            itemType = GetDocumentByMediaType(inJson['type'])
+            if itemType is None or itemType == dict:
+                value = inJson['value']
+            else:
+                value = itemType.FromJson(inJson['value'])
+
+            return ContainerDocument(value)
+        except KeyError:
+            raise ValueError('The given json is not a ContainerDocument')

@@ -1,5 +1,7 @@
+from lime_python.utils.baseType import GetBaseByClassName
 from lime_python.utils.reason import Reason, ReasonCode
 from lime_python.base.mediaType import MediaType
+from lime_python.base.document import Document
 from lime_python.base.envelope import Envelope
 from lime_python.base.message import Message
 from enum import Enum
@@ -52,7 +54,7 @@ class Command(Envelope):
         fromN (Node)
         to (Node)
         uri (str)
-        resource (Document)
+        resource (any)
         method (CommandMethod or str)
         status (CommandStatus or str)
         reason (Reason)
@@ -164,3 +166,49 @@ class Command(Envelope):
             json.update({'reason': self.Reason.ToJson()})
 
         return json
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            envelope = Envelope.FromJson(inJson)
+            uri = ('uri' in inJson and inJson['uri']) or None
+            status = ('status' in inJson and inJson['status']) or None
+            mediaType = ('type' in inJson and inJson['type']) or None
+            reason = (
+                'reason' in inJson and
+                Reason.FromJson(inJson['reason'])
+            ) or None
+
+            resource = ('resource' in inJson and inJson['resource']) or None
+            if resource is not None:
+                for resourceName in resource:
+                    resourceType = GetBaseByClassName(resourceName)
+                    if resourceType is not None:
+                        try:
+                            resourceClass = resourceType.FromJson(
+                                resource[resourceName]
+                            )
+                        except:  # It's not a Document, must implement Parse
+                            resourceClass = resourceType.Parse(
+                                resource[resourceName]
+                            )
+                    else:
+                        resourceClass = resource[resourceName]
+            else:
+                resourceClass = None
+
+            return Command(
+                envelope.Id,
+                envelope.From,
+                envelope.To,
+                uri,
+                resourceClass,
+                inJson['method'],
+                status,
+                reason,
+                mediaType
+            )
+        except KeyError:
+            raise ValueError('The given json is not a Command')

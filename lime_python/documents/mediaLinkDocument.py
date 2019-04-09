@@ -1,3 +1,4 @@
+from lime_python.utils.documentsType import GetDocumentByMediaType
 from lime_python.base.mediaType import MediaType as MT
 from lime_python.base.document import Document
 
@@ -134,3 +135,32 @@ class MediaLinkDocument(_MediaLinkDocument):
     """
 
     Type = MT.Parse(_MediaLinkDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            mimeType = ('type' in inJson and inJson['type']) or None
+            text = ('text' in inJson and inJson['text']) or None
+            size = ('size' in inJson and inJson['size']) or None
+            aspectRatio = (
+                'aspectRatio' in inJson and inJson['aspectRatio']) or None
+            title = ('title' in inJson and inJson['title']) or None
+            previewType = (
+                'previewType' in inJson and inJson['previewType']) or None
+            previewUri = (
+                'previewUri' in inJson and inJson['previewUri']) or None
+
+            return MediaLinkDocument(
+                mimeType,
+                size,
+                aspectRatio,
+                inJson['uri'],
+                title,
+                text,
+                previewType,
+                previewUri
+            )
+        except KeyError:
+            raise ValueError('The given json is not a MediaLinkDocument')

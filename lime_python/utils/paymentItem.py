@@ -71,3 +71,17 @@ class PaymentItem:
             'total': self.Total,
             'description': self.Description
         }
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            return PaymentItem(
+                inJson['quantity'],
+                inJson['unit'],
+                inJson['currency'],
+                inJson['description']
+            )
+        except KeyError:
+            raise ValueError('The given json is not a PaymentItem')

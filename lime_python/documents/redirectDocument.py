@@ -1,4 +1,5 @@
 from lime_python.documents.plainTextDocument import PlainTextDocument
+from lime_python.utils.documentsType import GetDocumentByMediaType
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
 from lime_python.base.node import Node
@@ -75,3 +76,24 @@ class RedirectDocument(_RedirectDocument):
     """
 
     Type = MediaType.Parse(_RedirectDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            address = ('address' in inJson and inJson['address']) or None
+            contextType = (
+                'context' in inJson and inJson['context']['type']) or None
+            if contextType is not None:
+                contextType = GetDocumentByMediaType(contextType)
+                if contextType == dict:
+                    value = inJson['context']['value']
+                else:
+                    value = contextType(inJson['context']['value'])
+            else:
+                value = None
+
+            return RedirectDocument(address, value)
+        except KeyError:
+            raise ValueError('The given json is not a RedirectDocument')

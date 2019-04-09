@@ -44,7 +44,8 @@ def test_chatstatedocument():
 
     state = ChatStateDocument('composing')
 
-    assert expectedJson == state.ToJson()
+    assert expectedJson == state.ToJson() == \
+        ChatStateDocument.FromJson(expectedJson).ToJson()
 
     expectedJson = {
         'state': 'paused'
@@ -52,13 +53,38 @@ def test_chatstatedocument():
 
     state = ChatStateDocument(ChatState.Paused)
 
-    assert expectedJson == state.ToJson()
+    assert expectedJson == state.ToJson() == \
+        ChatStateDocument.FromJson(expectedJson).ToJson()
 
     with pytest.raises(ValueError):
         state = ChatStateDocument('unexpected value')
 
 
 def test_collectiondocument():
+
+    collection = CollectionDocument(
+        ChatStateDocument.Type,
+        [
+            ChatStateDocument(ChatState.Starting),
+            ChatStateDocument(ChatState.Paused)
+        ]
+    )
+
+    assert collection.ToJson() == CollectionDocument.FromJson(
+        collection.ToJson()).ToJson()
+
+    collection = CollectionDocument(
+        MediaType.ApplicationJson,
+        [
+            {
+                'key1': '1',
+                'key2': 'other'
+            }
+        ]
+    )
+
+    assert collection.ToJson() == CollectionDocument.FromJson(
+        collection.ToJson()).ToJson()
 
     expectedJson = {
         'itemType': 'text/plain',
@@ -75,7 +101,9 @@ def test_collectiondocument():
         PlainTextDocument('Text 3')
     ])
 
-    assert expectedJson == collection.ToJson()
+    assert expectedJson == collection.ToJson() == \
+        CollectionDocument.FromJson(expectedJson).ToJson() == \
+        CollectionDocument.FromJson(collection.ToJson()).ToJson()
 
     expectedJson = {
         'itemType': 'application/vnd.lime.container+json',
@@ -123,7 +151,9 @@ def test_collectiondocument():
                                         ContainerDocument(select)
                                     ])
 
-    assert expectedJson == collection.ToJson()
+    assert expectedJson == collection.ToJson() == \
+        CollectionDocument.FromJson(expectedJson).ToJson() == \
+        CollectionDocument.FromJson(collection.ToJson()).ToJson()
 
     expectedJson = {
         'itemType': 'application/json',
@@ -149,7 +179,9 @@ def test_collectiondocument():
                                         }
                                     ])
 
-    assert expectedJson == collection.ToJson()
+    assert expectedJson == collection.ToJson() == \
+        CollectionDocument.FromJson(expectedJson).ToJson() == \
+        CollectionDocument.FromJson(collection.ToJson()).ToJson()
 
 
 def test_containerdocument():
@@ -167,7 +199,9 @@ def test_containerdocument():
         'key2': 'value2'
     })
 
-    assert expectedJson == container.ToJson()
+    assert expectedJson == container.ToJson() == \
+        ContainerDocument.FromJson(expectedJson).ToJson() == \
+        ContainerDocument.FromJson(container.ToJson()).ToJson()
 
     expectedJson = {
         'type': 'text/plain',
@@ -179,7 +213,9 @@ def test_containerdocument():
 
     sameContainer = ContainerDocument('there is a house in new orleans')
 
-    assert expectedJson == container.ToJson()
+    assert expectedJson == container.ToJson() == \
+        ContainerDocument.FromJson(expectedJson).ToJson() == \
+        ContainerDocument.FromJson(container.ToJson()).ToJson()
 
 
 def test_inputdocument():
@@ -197,7 +233,9 @@ def test_inputdocument():
     inp = InputDocument('What is your name?',
                         Validation('text'))
 
-    assert expectedJson == inp.ToJson()
+    assert expectedJson == inp.ToJson() == \
+        InputDocument.FromJson(expectedJson).ToJson() == \
+        InputDocument.FromJson(inp.ToJson()).ToJson()
 
     expectedJson = {
         'label': {
@@ -213,7 +251,9 @@ def test_inputdocument():
     inp = InputDocument('Send your location please!',
                         Validation(Rule.Type, LocationDocument.Type))
 
-    assert expectedJson == inp.ToJson()
+    assert expectedJson == inp.ToJson() == \
+        InputDocument.FromJson(expectedJson).ToJson() == \
+        InputDocument.FromJson(inp.ToJson()).ToJson()
 
 
 def test_listdocument():
@@ -299,24 +339,42 @@ def test_listdocument():
 
     listD = ListDocument(header, items)
 
-    assert expectedJson == listD.ToJson()
+    assert expectedJson == listD.ToJson() == \
+        ListDocument.FromJson(expectedJson).ToJson() == \
+        ListDocument.FromJson(listD.ToJson()).ToJson()
 
 
 def test_locationdocument():
 
     expectedJson = {
+        "latitude": -19.939269,
+        "longitude": -43.938676,
+        "text": "New take's place"
+    }
+
+    location = LocationDocument("New take's place",
+                                -19.939269,
+                                -43.938676)
+
+    assert expectedJson == location.ToJson() == \
+        LocationDocument.FromJson(expectedJson).ToJson() == \
+        LocationDocument.FromJson(location.ToJson()).ToJson()
+
+    expectedJson = {
         "latitude": -19.918899,
         "longitude": -43.959275,
         "altitude": 853,
-        "text": "Take's place"
+        "text": "Old take's place"
     }
 
-    location = LocationDocument("Take's place",
+    location = LocationDocument("Old take's place",
                                 -19.918899,
                                 -43.959275,
                                 853)
 
-    assert expectedJson == location.ToJson()
+    assert expectedJson == location.ToJson() == \
+        LocationDocument.FromJson(expectedJson).ToJson() == \
+        LocationDocument.FromJson(location.ToJson()).ToJson()
 
 
 def test_medialinkdocument():
@@ -331,7 +389,9 @@ def test_medialinkdocument():
                                   '3124123',
                                   uri='http://somesite.com/someaudio.mp3')
 
-    assert expectedJson == medialink.ToJson()
+    assert expectedJson == medialink.ToJson() == \
+        MediaLinkDocument.FromJson(expectedJson).ToJson() == \
+        MediaLinkDocument.FromJson(medialink.ToJson()).ToJson()
 
     expectedJson = {
         'title': 'pdf_open_parameters.pdf',
@@ -345,7 +405,9 @@ def test_medialinkdocument():
                                   uri='https://somesite.com/somepdf.pdf',
                                   title='pdf_open_parameters.pdf')
 
-    assert expectedJson == medialink.ToJson()
+    assert expectedJson == medialink.ToJson() == \
+        MediaLinkDocument.FromJson(expectedJson).ToJson() == \
+        MediaLinkDocument.FromJson(medialink.ToJson()).ToJson()
 
     expectedJson = {
         'uri': 'http://somesite.com/somegif.gif',
@@ -355,7 +417,9 @@ def test_medialinkdocument():
     medialink = MediaLinkDocument(MediaType.Parse('image/gif'),
                                   uri='http://somesite.com/somegif.gif')
 
-    assert expectedJson == medialink.ToJson()
+    assert expectedJson == medialink.ToJson() == \
+        MediaLinkDocument.FromJson(expectedJson).ToJson() == \
+        MediaLinkDocument.FromJson(medialink.ToJson()).ToJson()
 
     expectedJson = {
         'title': 'Cat',
@@ -377,7 +441,9 @@ def test_medialinkdocument():
                                   MediaType.Parse('image/jpeg'),
                                   'https://somesite.com/someimage')
 
-    assert expectedJson == medialink.ToJson()
+    assert expectedJson == medialink.ToJson() == \
+        MediaLinkDocument.FromJson(expectedJson).ToJson() == \
+        MediaLinkDocument.FromJson(medialink.ToJson()).ToJson()
 
     expectedJson = {
         'uri': 'http://somesite.com/somevideo.mp4',
@@ -387,7 +453,9 @@ def test_medialinkdocument():
     medialink = MediaLinkDocument(MediaType.Parse('video/mp4'),
                                   uri='http://somesite.com/somevideo.mp4')
 
-    assert expectedJson == medialink.ToJson()
+    assert expectedJson == medialink.ToJson() == \
+        MediaLinkDocument.FromJson(expectedJson).ToJson() == \
+        MediaLinkDocument.FromJson(medialink.ToJson()).ToJson()
 
 
 def test_menudocument():
@@ -429,7 +497,9 @@ def test_menudocument():
                                                 })
                         ])
 
-    assert expectedJson == menu.ToJson()
+    assert expectedJson == menu.ToJson() == \
+        MenuDocument.FromJson(expectedJson).ToJson() == \
+        MenuDocument.FromJson(menu.ToJson()).ToJson()
 
     expectedJson = {
         'text': 'Do you wanna cook crystal meth?',
@@ -455,7 +525,9 @@ def test_menudocument():
                                                 'no')
                         ])
 
-    assert expectedJson == menu.ToJson()
+    assert expectedJson == menu.ToJson() == \
+        MenuDocument.FromJson(expectedJson).ToJson() == \
+        MenuDocument.FromJson(menu.ToJson()).ToJson()
 
 
 def test_multimediamenudocument():
@@ -528,7 +600,9 @@ def test_multimediamenudocument():
         ]
     )
 
-    assert expectedJson == multimenu.ToJson()
+    assert expectedJson == multimenu.ToJson() == \
+        MultimediaMenuDocument.FromJson(expectedJson).ToJson() == \
+        MultimediaMenuDocument.FromJson(multimenu.ToJson()).ToJson()
 
     expectedJson = {
         'itemType': 'application/vnd.lime.document-select+json',
@@ -688,7 +762,9 @@ def test_multimediamenudocument():
         ]
     )
 
-    assert expectedJson == collection.ToJson()
+    assert expectedJson == collection.ToJson() == \
+        CollectionDocument.FromJson(expectedJson).ToJson() == \
+        CollectionDocument.FromJson(collection.ToJson()).ToJson()
 
 
 def test_paymentinvoicedocument():
@@ -728,7 +804,9 @@ def test_paymentinvoicedocument():
 
     given['created'] = now.strftime('%Y-%m-%dT%H:%M:%SZ')
 
-    assert expectedJson == given
+    assert expectedJson == given == \
+        PaymentInvoiceDocument.FromJson(expectedJson).ToJson() == \
+        PaymentInvoiceDocument.FromJson(given).ToJson()
 
 
 def test_paymentreceiptdocument():
@@ -766,7 +844,9 @@ def test_paymentreceiptdocument():
         ]
     )
 
-    assert expectedJson == payment.ToJson()
+    assert expectedJson == payment.ToJson() == \
+        PaymentReceiptDocument.FromJson(expectedJson).ToJson() == \
+        PaymentReceiptDocument.FromJson(payment.ToJson()).ToJson()
 
 
 def test_plaintextdocument():
@@ -775,7 +855,9 @@ def test_plaintextdocument():
 
     pt = PlainTextDocument('Welcome to our service! How can I help you?')
 
-    assert expectedJson == pt.ToJson()
+    assert expectedJson == pt.ToJson() == \
+        PlainTextDocument.FromJson(expectedJson).ToJson() == \
+        PlainTextDocument.FromJson(pt.ToJson()).ToJson()
 
 
 def test_redirectdocument():
@@ -801,7 +883,9 @@ def test_redirectdocument():
         'Get started'
     )
 
-    assert expectedJson == redirect.ToJson()
+    assert expectedJson == redirect.ToJson() == \
+        RedirectDocument.FromJson(expectedJson).ToJson() == \
+        RedirectDocument.FromJson(redirect.ToJson()).ToJson()
 
 
 def test_resourcedocument():
@@ -812,7 +896,9 @@ def test_resourcedocument():
 
     resource = ResourceDocument('welcome-message')
 
-    assert expectedJson == resource.ToJson()
+    assert expectedJson == resource.ToJson() == \
+        ResourceDocument.FromJson(expectedJson).ToJson() == \
+        ResourceDocument.FromJson(resource.ToJson()).ToJson()
 
     expectedJson = {
         'key': 'welcome-message',
@@ -826,7 +912,9 @@ def test_resourcedocument():
                                     'name': 'John Doe'
                                 })
 
-    assert expectedJson == resource.ToJson()
+    assert expectedJson == resource.ToJson() == \
+        ResourceDocument.FromJson(expectedJson).ToJson() == \
+        ResourceDocument.FromJson(resource.ToJson()).ToJson()
 
 
 def test_sensitiveinformationdocument():
@@ -842,7 +930,10 @@ def test_sensitiveinformationdocument():
 
     sameSI = SensitiveInformationDocument('Your password is 123456')
 
-    assert expectedJson == si.ToJson() == sameSI.ToJson()
+    assert expectedJson == si.ToJson() == sameSI.ToJson() == \
+        SensitiveInformationDocument.FromJson(expectedJson).ToJson() == \
+        SensitiveInformationDocument.FromJson(si.ToJson()).ToJson() == \
+        SensitiveInformationDocument.FromJson(sameSI.ToJson()).ToJson()
 
     expectedJson = {
         'type': 'application/vnd.lime.web-link+json',
@@ -859,7 +950,9 @@ def test_sensitiveinformationdocument():
         )
     )
 
-    assert expectedJson == si.ToJson()
+    assert expectedJson == si.ToJson() == \
+        SensitiveInformationDocument.FromJson(expectedJson).ToJson() == \
+        SensitiveInformationDocument.FromJson(si.ToJson()).ToJson()
 
 
 def test_weblinkdocument():
@@ -876,7 +969,9 @@ def test_weblinkdocument():
         target='self'
     )
 
-    assert expectedJson == weblink.ToJson()
+    assert expectedJson == weblink.ToJson() == \
+        WebLinkDocument.FromJson(expectedJson).ToJson() == \
+        WebLinkDocument.FromJson(weblink.ToJson()).ToJson()
 
     expectedJson = {
         'uri': 'http://somesite.com',
@@ -894,4 +989,6 @@ def test_weblinkdocument():
         Target.SelfTall
     )
 
-    assert expectedJson == weblink.ToJson()
+    assert expectedJson == weblink.ToJson() == \
+        WebLinkDocument.FromJson(expectedJson).ToJson() == \
+        WebLinkDocument.FromJson(weblink.ToJson()).ToJson()

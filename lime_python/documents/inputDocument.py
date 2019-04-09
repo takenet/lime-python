@@ -1,4 +1,5 @@
 from lime_python.documents.plainTextDocument import PlainTextDocument
+from lime_python.utils.documentsType import GetDocumentByMediaType
 from lime_python.base.mediaType import MediaType as MT
 from lime_python.base.document import Document
 from enum import Enum
@@ -64,6 +65,20 @@ class Validation:
             json.update({'type': str(self.MediaType)})
 
         return json
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            rule = Rule(inJson['rule'])
+            if 'type' in inJson:
+                mediaType = MT.Parse(inJson['type'])
+            else:
+                mediaType = None
+            return Validation(rule, mediaType)
+        except KeyError:
+            raise ValueError('The given json is not a Validation')
 
 
 class _InputDocument(Document):
@@ -141,3 +156,19 @@ class InputDocument(_InputDocument):
     """
 
     Type = MT.Parse(_InputDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            labelType = GetDocumentByMediaType(inJson['label']['type'])
+            if labelType is None:
+                label = inJson['label']['value']
+            else:
+                label = labelType.FromJson(inJson['label']['value'])
+            validation = Validation.FromJson(inJson['validation'])
+
+            return InputDocument(label, validation)
+        except KeyError:
+            raise ValueError('The given json is not a InputDocument')

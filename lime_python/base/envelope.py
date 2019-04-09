@@ -65,3 +65,19 @@ class Envelope:
         if self.From is not None:
             json['from'] = str(self.From)
         return json
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            to = ('to' in inJson and inJson['to']) or None
+            fromN = ('from' in inJson and inJson['from']) or None
+
+            return Envelope(
+                inJson['id'],
+                fromN,
+                to
+            )
+        except KeyError:
+            raise ValueError('The given json is not a Envelope')

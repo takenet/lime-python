@@ -1,4 +1,5 @@
 from lime_python.documents.plainTextDocument import PlainTextDocument
+from lime_python.utils.documentsType import GetDocumentByMediaType
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
 
@@ -49,3 +50,22 @@ class SensitiveInformationDocument(_SensitiveInformationDocument):
     """
 
     Type = MediaType.Parse(_SensitiveInformationDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            valueType = GetDocumentByMediaType(
+                inJson['type']
+            )
+            if valueType == dict:
+                value = inJson['value']
+            else:
+                value = valueType.FromJson(
+                    inJson['value']
+                )
+            return SensitiveInformationDocument(value)
+        except KeyError:
+            raise ValueError(
+                'The given json is not a SensitiveInformationDocument')

@@ -52,3 +52,16 @@ class ResourceDocument(_ResourceDocument):
     """
 
     Type = MediaType.Parse(_ResourceDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            variables = ('variables' in inJson and inJson['variables']) or {}
+            return ResourceDocument(
+                inJson['key'],
+                variables
+            )
+        except KeyError:
+            raise ValueError('The given json is not a ResourceDocument')

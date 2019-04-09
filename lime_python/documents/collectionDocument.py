@@ -1,10 +1,12 @@
 from lime_python.base.document import Document
 from lime_python.base.mediaType import MediaType
+from lime_python.utils.documentsType import GetDocumentByMediaType
+import json
 
 
 class _CollectionDocument(Document):
 
-    MIME_TYPE = "application/vnd.lime.collection+json"
+    MIME_TYPE = 'application/vnd.lime.collection+json'
 
     def __init__(self, itemType, items=[]):
         super().__init__(MediaType.Parse(_CollectionDocument.MIME_TYPE))
@@ -63,3 +65,20 @@ class CollectionDocument(_CollectionDocument):
     """
 
     Type = MediaType.Parse(_CollectionDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            itemType = GetDocumentByMediaType(inJson['itemType'])
+            if itemType is not None and itemType != dict:
+                items = [itemType.FromJson(x) for x in inJson['items']]
+            else:
+                items = inJson['items']
+            return CollectionDocument(
+                MediaType.Parse(inJson['itemType']),
+                items
+            )
+        except KeyError:
+            raise ValueError('The given json is not a CollectionDocument')

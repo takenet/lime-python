@@ -115,3 +115,25 @@ class WebLinkDocument(_WebLinkDocument):
     """
 
     Type = MediaType.Parse(_WebLinkDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            title = ('title' in inJson and inJson['title']) or None
+            text = ('text' in inJson and inJson['text']) or None
+            previewUri = (
+                'previewUri' in inJson and inJson['previewUri']) or None
+            target = ('target' in inJson and inJson['target']) or None
+
+            return WebLinkDocument(
+                inJson['uri'],
+                title,
+                text,
+                previewUri,
+                target
+            )
+
+        except KeyError:
+            raise ValueError('The given json is not a WebLinkDocument')

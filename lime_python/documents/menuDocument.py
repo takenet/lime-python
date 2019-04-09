@@ -1,3 +1,4 @@
+from lime_python.utils.documentsType import GetDocumentByMediaType
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
 from lime_python.utils.header import Header
@@ -154,6 +155,33 @@ class _MenuDocument(Document):
 
             return json
 
+        @staticmethod
+        def FromJson(inJson):
+            if isinstance(inJson, str):
+                inJson = json.loads(inJson)
+            try:
+                order = ('order' in inJson and inJson['order']) or None
+                valueType = (
+                    'type' in inJson and GetDocumentByMediaType(
+                        inJson['type']
+                    )) or None
+
+                if valueType is not None:
+                    if valueType == dict:
+                        value = inJson['value']
+                    else:
+                        value = valueType.FromJson(inJson['value'])
+                else:
+                    value = None
+
+                return MenuDocument.Option(
+                    order,
+                    value,
+                    inJson['text']
+                )
+            except KeyError:
+                raise ValueError('The given json is not a MenuDocument')
+
 
 class MenuDocument(_MenuDocument):
     """
@@ -166,3 +194,22 @@ class MenuDocument(_MenuDocument):
     """
 
     Type = MediaType.Parse(_MenuDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            scope = ('scope' in inJson and inJson['scope']) or None
+            text = ('text' in inJson and inJson['text']) or None
+
+            return MenuDocument(
+                scope,
+                text,
+                [
+                    MenuDocument.Option.FromJson(x)
+                    for x in inJson['options']
+                ]
+            )
+        except KeyError:
+            raise ValueError('The given json is not a MenuDocument')

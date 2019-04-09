@@ -34,3 +34,9 @@ class PlainTextDocument(Document):
 
     def ToJson(self):
         return str(self.Value)  # For plain/text we only need the text itself
+
+    def FromJson(inJson):
+        try:
+            return PlainTextDocument(inJson)
+        except:
+            raise ValueError('The given json is not a PlainTextDocument')

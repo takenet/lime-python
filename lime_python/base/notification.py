@@ -51,6 +51,8 @@ class Notification(Envelope):
 
     @Event.setter
     def Event(self, event):
+        if isinstance(event, str):
+            event = NotificationEvent(event)
         if event is not None and not isinstance(event, NotificationEvent):
             raise ValueError('"Event" must be a NotificationEvent')
         self.__Event = event
@@ -79,3 +81,25 @@ class Notification(Envelope):
         if self.Reason is not None:
             json.update({'reason': self.GetReasonJson()})
         return json
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            reason = (
+                'reason' in inJson and
+                NotificationReason.FromJson(inJson['reason'])
+            ) or None
+
+            envelope = Envelope.FromJson(inJson)
+
+            return Notification(
+                envelope.Id,
+                envelope.To,
+                envelope.From,
+                inJson['event'],
+                reason
+            )
+        except KeyError:
+            raise ValueError('The given json is not a Notification')

@@ -34,3 +34,12 @@ class Document:
         return {
             'type': str(self.GetMediaType())
         }
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            return Document(inJson['type'])
+        except KeyError:
+            raise ValueError('The given json is not a Document')

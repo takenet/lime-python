@@ -34,7 +34,7 @@
   - [Resource](#Resource)
   - [Redirect](#Redirect)
   - [Payment Invoice](#Payment%20Invoice)
-  - [Payement Receipt](#Payment%20Receipt) -[Payment Method](#PaymentReceiptDocument.PaymentMethod)
+  - [Payement Receipt](#Payment%20Receipt)
   - [List](#List)
   - [Container](#Container)
   - [Collection](#Collection)
@@ -45,6 +45,7 @@
   - [Reason](#Reason)
   - [Scope](#Scope)
   - [Payment Item](#Payment%20Item)
+  - [Payment Method](#Paymen%20tMethod)
 
 # Base
 
@@ -235,7 +236,7 @@ Commands may have methods (`CommandMethod`) and/or status (`CommandStatus`).
 | From     | `Node`          |
 | To       | `Node`          |
 | Uri      | `string`        |
-| Resource | `Document`      |
+| Resource | `Any`           |
 | Method   | `CommandMethod` |
 | Status   | `Status`        |
 | Reason   | `Reason`        |
@@ -725,14 +726,6 @@ To create a receipt you need to pass a `PaymentReceiptDocument.PaymentMethod`.
 
 ### Class Informations
 
-#### PaymentReceiptDocument.PaymentMethod
-
-| Property | Type     |
-| -------- | -------- |
-| Name     | `string` |
-
-#### PaymentReceiptDocument
-
 | Property  | Type                                   |
 | --------- | -------------------------------------- |
 | PaidOn    | `datetime`                             |
@@ -953,4 +946,22 @@ print(Scope.Immediate.value)
 from lime_python import PaymentItem
 
 item = PaymentItem(1, 300, 'BRL', 'Calça')
+```
+
+## Payment Method
+
+### Class Informations
+
+PaymentMethod
+
+| Property | Type     |
+| -------- | -------- |
+| Name     | `string` |
+
+### Usage
+
+```python
+from lime_python import PaymentMethod
+
+method = PaymentMethod('Credit Card')
 ```

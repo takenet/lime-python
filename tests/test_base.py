@@ -56,7 +56,9 @@ def test_command():
                   mediaType='application/vnd.iris.distribution-list+json',
                   resource=Identity.Parse('list@broadcast.msging.net'))
 
-    assert expectedJson == cmd.ToJson()
+    assert expectedJson == cmd.ToJson() == \
+        Command.FromJson(expectedJson).ToJson() == \
+        Command.FromJson(cmd.ToJson()).ToJson()
 
     expectedJson = {
         "id": "1",
@@ -72,7 +74,9 @@ def test_command():
                   method=CommandMethod.Set,
                   status=CommandStatus.Success)
 
-    assert expectedJson == cmd.ToJson()
+    assert expectedJson == cmd.ToJson() == \
+        Command.FromJson(expectedJson).ToJson() == \
+        Command.FromJson(cmd.ToJson()).ToJson()
 
     expectedJson = {
         "id": "1",
@@ -93,7 +97,9 @@ def test_command():
                   status=CommandStatus.Failure,
                   reason=Reason(ReasonCode(60), 'Invalid list identifier'))
 
-    assert expectedJson == cmd.ToJson()
+    assert expectedJson == cmd.ToJson() == \
+        Command.FromJson(expectedJson).ToJson() == \
+        Command.FromJson(cmd.ToJson()).ToJson()
 
     expectedJson = {
         "id": "2",
@@ -121,7 +127,9 @@ def test_command():
                                    content=PlainTextDocument(
                                        'Scheduled Message')))
 
-    assert expectedJson == cmd.ToJson()
+    assert expectedJson == cmd.ToJson() == \
+        Command.FromJson(expectedJson).ToJson() == \
+        Command.FromJson(cmd.ToJson()).ToJson()
 
 
 def test_document():
@@ -132,7 +140,9 @@ def test_document():
 
     doc = Document('application/vnd.iris.schedule+json')
 
-    assert expectedJson == doc.ToJson()
+    assert expectedJson == doc.ToJson() == \
+        Document.FromJson(expectedJson).ToJson() == \
+        Document.FromJson(doc.ToJson()).ToJson()
 
 
 def test_envelope():
@@ -144,7 +154,9 @@ def test_envelope():
 
     env = Envelope('1', to='postmaster@scheduler.msging.net')
 
-    assert expectedJson == env.ToJson()
+    assert expectedJson == env.ToJson() == \
+        Envelope.FromJson(expectedJson).ToJson() == \
+        Envelope.FromJson(env.ToJson()).ToJson()
 
 
 def test_identity():
@@ -194,7 +206,7 @@ def test_mediaType():
 
 def test_message():
 
-    expected = {
+    expectedJson = {
         "id": "65603604-fe19-479c-c885-3195b196fe8e",
         "from": "551199991111@0mn.io/182310923192",
         "to": "mycontact@msging.net",
@@ -207,9 +219,11 @@ def test_message():
                 'mycontact@msging.net',
                 PlainTextDocument('Hello World'))
 
-    assert expected == m.ToJson()
+    assert expectedJson == m.ToJson() == \
+        Message.FromJson(expectedJson).ToJson() == \
+        Message.FromJson(m.ToJson()).ToJson()
 
-    expected = {
+    expectedJson = {
         "id": "123e4567-e89b-12d3-a456-426655440000",
         "to": "551100001111@0mn.io",
         "type": "text/plain",
@@ -220,9 +234,11 @@ def test_message():
                 to="551100001111@0mn.io",
                 content=PlainTextDocument("Hello, how can I help you?"))
 
-    assert expected == m.ToJson()
+    assert expectedJson == m.ToJson() == \
+        Message.FromJson(expectedJson).ToJson() == \
+        Message.FromJson(m.ToJson()).ToJson()
 
-    expected = {
+    expectedJson = {
         "id": "65603604-fe19-479c-c885-3195b196fe8e",
         "from": "551199991111@0mn.io/182310923192",
         "to": "mycontact@msging.net",
@@ -246,7 +262,9 @@ def test_message():
                                       Validation(Rule.Type,
                                                  LocationDocument.Type)))
 
-    assert expected == m.ToJson()
+    assert expectedJson == m.ToJson() == \
+        Message.FromJson(expectedJson).ToJson() == \
+        Message.FromJson(m.ToJson()).ToJson()
 
 
 def test_node():
@@ -286,7 +304,7 @@ def test_notificationevent():
 
 def test_notification():
 
-    expected = {
+    expectedJson = {
         "id": "65603604-fe19-479c-c885-3195b196fe8e",
         "from": "551199991111@0mn.io/182310923192",
         "to": "mycontact@msging.net",
@@ -298,9 +316,11 @@ def test_notification():
                      '551199991111@0mn.io/182310923192',
                      NotificationEvent.Received)
 
-    assert expected == n.ToJson()
+    assert expectedJson == n.ToJson() == \
+        Notification.FromJson(expectedJson).ToJson() == \
+        Notification.FromJson(n.ToJson()).ToJson()
 
-    expected = {
+    expectedJson = {
         "id": "65603604-fe19-479c-c885-3195b196fe8e",
         "from": "postmaster@msging.net/server1",
         "to": "mycontact@msging.net",
@@ -317,4 +337,6 @@ def test_notification():
                      NotificationEvent.Failed,
                      Reason(ReasonCode(42), 'Destination not found'))
 
-    assert expected == n.ToJson()
+    assert expectedJson == n.ToJson() == \
+        Notification.FromJson(expectedJson).ToJson() == \
+        Notification.FromJson(n.ToJson()).ToJson()

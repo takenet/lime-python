@@ -1,3 +1,4 @@
+from lime_python.utils.documentsType import GetDocumentByMediaType
 from lime_python.base.mediaType import MediaType
 from lime_python.base.document import Document
 
@@ -64,12 +65,18 @@ class _LocationDocument(Document):
         self.__Altitude = altitude
 
     def ToJson(self):
-        return {
-            'latitude': self.Latitude,
-            'longitude': self.Longitude,
-            'altitude': self.Altitude,
-            'text': self.Text
-        }
+        json = {}
+
+        if self.Latitude is not None:
+            json.update({'latitude': self.Latitude})
+        if self.Longitude is not None:
+            json.update({'longitude': self.Longitude})
+        if self.Altitude is not None:
+            json.update({'altitude': self.Altitude})
+        if self.Text is not None:
+            json.update({'text': self.Text})
+
+        return json
 
 
 class LocationDocument(_LocationDocument):
@@ -84,3 +91,17 @@ class LocationDocument(_LocationDocument):
     """
 
     Type = MediaType.Parse(_LocationDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            text = ('text' in inJson and inJson['text']) or None
+            latitude = ('latitude' in inJson and inJson['latitude']) or None
+            longitude = ('longitude' in inJson and inJson['longitude']) or None
+            altitude = ('altitude' in inJson and inJson['altitude']) or None
+
+            return LocationDocument(text, latitude, longitude, altitude)
+        except KeyError:
+            raise ValueError('The given json is not a InputDocument')

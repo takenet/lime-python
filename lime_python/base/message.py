@@ -64,3 +64,24 @@ class Message(Envelope):
                 'content': self.GetDocumentJson()
             }
         }
+
+    @staticmethod
+    def FromJson(inJson):
+        from lime_python.utils.documentsType import GetDocumentByMediaType
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            envelope = Envelope.FromJson(inJson)
+            mediaType = GetDocumentByMediaType(inJson['type'])
+            if mediaType == dict or mediaType is None:
+                content = inJson['content']
+            else:
+                content = mediaType.FromJson(inJson['content'])
+            return Message(
+                envelope.Id,
+                envelope.From,
+                envelope.To,
+                content
+            )
+        except KeyError:
+            raise ValueError('The given json is not a Message')

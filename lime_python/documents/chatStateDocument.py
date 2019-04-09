@@ -1,6 +1,7 @@
 from lime_python.base.document import Document
 from lime_python.base.mediaType import MediaType
 from enum import Enum
+import json
 
 
 class ChatState(Enum):
@@ -39,8 +40,7 @@ class _ChatStateDocument(Document):
         if isinstance(chatState, str):
             chatState = ChatState(chatState)
         if chatState is not None and not isinstance(chatState, ChatState):
-            raise ValueError(
-                '"ChatState" must be a ChatState Model')
+            raise ValueError('"ChatState" must be a ChatState')
         self.__State = chatState
 
     def ToJson(self):
@@ -58,3 +58,12 @@ class ChatStateDocument(_ChatStateDocument):
     """
 
     Type = MediaType.Parse(_ChatStateDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            return ChatStateDocument(inJson['state'])
+        except KeyError:
+            raise ValueError('The given json is not a ChatStateDocument')

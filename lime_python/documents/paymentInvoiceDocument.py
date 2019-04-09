@@ -78,3 +78,28 @@ class PaymentInvoiceDocument(_PaymentInvoiceDocument):
         items ([PaymentItem])
     """
     Type = MediaType.Parse(_PaymentInvoiceDocument.MIME_TYPE)
+
+    @staticmethod
+    def FromJson(inJson):
+        if isinstance(inJson, str):
+            inJson = json.loads(inJson)
+        try:
+            payment = PaymentInvoiceDocument(
+                inJson['currency'],
+                datetime.strptime(
+                    inJson['dueTo'],
+                    '%Y-%m-%dT%H:%M:%SZ'
+                ),
+                [
+                    PaymentItem.FromJson(x)
+                    for x in inJson['items']
+                ]
+            )
+            if 'created' in inJson:
+                payment.__Created = datetime.strptime(
+                    inJson['created'],
+                    '%Y-%m-%dT%H:%M:%SZ'
+                )
+            return payment
+        except KeyError:
+            raise ValueError('The given json is not a PaymentInvoiceDocument')

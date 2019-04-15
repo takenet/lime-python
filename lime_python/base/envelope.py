@@ -71,11 +71,12 @@ class Envelope:
         if isinstance(inJson, str):
             inJson = json.loads(inJson)
         try:
+            idJ = ('id' in inJson and inJson['id']) or None
             to = ('to' in inJson and inJson['to']) or None
             fromN = ('from' in inJson and inJson['from']) or None
 
             return Envelope(
-                inJson['id'],
+                idJ,
                 fromN,
                 to
             )
